@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-export default function Single() {
+export default function FoundDetails() {
   let { AuthTokens } = useContext(AuthContext);
 
   const ids = new URLSearchParams(document.location.search).get("key");
   const [details, setdetails] = useState(null);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/missing/details/${ids}`, {
+    fetch(`http://127.0.0.1:8000/api/seen/details/${ids}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export default function Single() {
               <div className="image overflow-hidden rounded-md">
                 <img
                   className="h-auto w-full mx-auto"
-                  src={`http://127.0.0.1:8000${details && details[0].image}`}
+                  src={`http://127.0.0.1:8000${ details && details[0].image}`}
                   alt=""
                 />
               </div>
@@ -61,7 +61,7 @@ export default function Single() {
                   <span>Status</span>
                   <span className="ml-auto">
                     <span className="bg-green-500 py-1 px-2 rounded text-white text-sm">
-                      Missing
+                      Found
                     </span>
                   </span>
                 </li>
@@ -166,12 +166,6 @@ export default function Single() {
                     <span className="tracking-wide">Other Information</span>
                   </div>
                   <ul className="list-inside space-y-2">
-                    <li className="">
-                      <div className="text-gray-700">NickName </div>
-                      <div className="text-gray-500 text-xs">
-                        {details && details[0].nick_name}
-                      </div>
-                    </li>
                     <li>
                       <div className="text-gray-700">Hair Color</div>
                       <div className="text-gray-500 text-xs">

@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 const subCategories = [
   { name: "Missing Persons", href: "/dashboard/missing" },
@@ -65,9 +65,9 @@ export default function Example() {
                     <ul className="px-2 py-3 font-medium text-gray-900">
                       {subCategories.map((category) => (
                         <li key={category.name}>
-                          <a href={category.href} className="block px-2 py-3">
+                          <NavLink to={category.href} className="block px-2 py-3">
                             {category.name}
-                          </a>
+                          </NavLink>
                         </li>
                       ))}
                     </ul>
@@ -108,12 +108,12 @@ export default function Example() {
                   <ul className="space-y-6  border-gray-200 pb-6 text-sm font-medium text-gray-900">
                     {subCategories.map((category) => (
                       <li key={category.name}>
-                        <a
-                          href={category.href}
+                        <NavLink
+                          to={category.href}
                           className="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
                         >
                           {category.name} <span aria-hidden="true">&rarr;</span>
-                        </a>
+                        </NavLink>
                       </li>
                     ))}
                   </ul>
