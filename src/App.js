@@ -18,6 +18,8 @@ import PrivateRoutes from "./utils/PrivateRoute";
 
 import { AuthProvider } from "./context/AuthContext";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
+import FoundDetails from "./pages/FoundDetails";
 function App() {
   return (
     <div className="App);">
@@ -29,6 +31,7 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/user" element={<Profile />} />
               <Route path="/single" element={<Single />} />
+              <Route path="/details" element={<FoundDetails/>} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route element={<PrivateRoutes />}>
@@ -46,6 +49,7 @@ function App() {
                 <Route path="/services/report_person" element={<Report />} />
               </Route>
             </Route>
+            <Route path="/*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
