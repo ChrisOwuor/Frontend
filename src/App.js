@@ -12,7 +12,6 @@ import Report from "./pages/Report";
 import Dashboard from "./pages/Dashboard";
 import Single from "./pages/Single";
 import Missing from "./pages/Missing";
-import Unclaimed from "./pages/Unclaimed";
 import Seen from "./pages/Seen";
 import PrivateRoutes from "./utils/PrivateRoute";
 
@@ -20,6 +19,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import FoundDetails from "./pages/FoundDetails";
+import Stats from "./pages/Stats";
 function App() {
   return (
     <div className="App);">
@@ -28,16 +28,17 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+
             <Route element={<PrivateRoutes />}>
               <Route path="/user" element={<Profile />} />
               <Route path="/single" element={<Single />} />
-              <Route path="/details" element={<FoundDetails/>} />
+              <Route path="/details" element={<FoundDetails />} />
+              <Route path="/stats" element={<Stats />} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route element={<PrivateRoutes />}>
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route path="/dashboard/missing" element={<Missing />} />
-                <Route path="/dashboard/unclaimed" element={<Unclaimed />} />
                 <Route path="/dashboard/seen" element={<Seen />} />
               </Route>
             </Route>
@@ -45,7 +46,7 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/services" element={<Services />}>
                 <Route path="/services/add_person" element={<AddPerson />} />
-                <Route path="/services/find_person" element={<Find />} />
+                <Route path="/services/find_person" element={<Find />}></Route>
                 <Route path="/services/report_person" element={<Report />} />
               </Route>
             </Route>
