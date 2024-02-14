@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-export default function FoundDetails() {
+export default function Stats() {
   let { AuthTokens } = useContext(AuthContext);
 
   const ids = new URLSearchParams(document.location.search).get("key");
@@ -206,14 +206,19 @@ export default function FoundDetails() {
                     <span className="tracking-wide">Full Descriptoin</span>
                   </div>
                   <div className="list-inside space-y-2">
-                    {details && details[0].description}
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Numquam quo consequuntur eos placeat animi adipisci
+                    consequatur doloribus ex odio deleniti!
                   </div>
                 </div>
               </div>
             </div>{" "}
           </div>
         </div>
-      </div>
+          </div>
+          
+
+          
     </>
   );
 }

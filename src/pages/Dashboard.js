@@ -11,7 +11,7 @@ const subCategories = [
 
 export default function Example() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
+const [dash,setDash]=useState("My Dashboard")
   return (
     <div className="bg-gradient-to-b from-zinc-300 via-white to-zinc-400">
       <div>
@@ -65,7 +65,10 @@ export default function Example() {
                     <ul className="px-2 py-3 font-medium text-gray-900">
                       {subCategories.map((category) => (
                         <li key={category.name}>
-                          <NavLink to={category.href} className="block px-2 py-3">
+                          <NavLink
+                            to={category.href}
+                            className="block px-2 py-3"
+                          >
                             {category.name}
                           </NavLink>
                         </li>
@@ -82,7 +85,7 @@ export default function Example() {
           <main className="lg:w-4/5 w-full px-4 sm:px-6 lg:px-8  h-full ">
             <div className=" top_div flex items-baseline justify-between border-b border-gray-200 pb-6 pt-8 lg:pt-12">
               <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
-                My Dashboard{" "}
+                {dash}
               </h1>
 
               <div className="flex items-center">
@@ -110,6 +113,7 @@ export default function Example() {
                       <li key={category.name}>
                         <NavLink
                           to={category.href}
+                          onClick={() => setDash(category.name)}
                           className="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
                         >
                           {category.name} <span aria-hidden="true">&rarr;</span>

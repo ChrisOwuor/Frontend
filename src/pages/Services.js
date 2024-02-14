@@ -13,7 +13,7 @@ const subCategories = [
 
 export default function Example() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
+  const [service, setSevice] = useState("Services");
   return (
     <div className="bg-gradient-to-b from-zinc-300 via-white to-zinc-100 ) h-full">
       <div>
@@ -87,7 +87,7 @@ export default function Example() {
           <main className="lg:w-4/5 w-full px-4 sm:px-6 lg:px-8  h-full ">
             <div className=" top_div flex items-baseline justify-between border-b border-gray-200 pb-6 pt-8 lg:pt-12">
               <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
-                Services{" "}
+                {service}
               </h1>
 
               <div className="flex items-center">
@@ -112,10 +112,12 @@ export default function Example() {
                   <h3 className="sr-only">Categories</h3>
                   <ul className="space-y-6  border-gray-200 pb-6 text-sm font-medium text-gray-900">
                     {subCategories.map((category) => (
-                      <li key={category.name}>
+                      <li
+                        key={category.name}
+                        onClick={() => setSevice(category.name)}
+                      >
                         <NavLink
                           to={category.href}
-                          activeClassName="active bg-green-200"
                           className="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
                         >
                           {category.name} <span aria-hidden="true">&rarr;</span>

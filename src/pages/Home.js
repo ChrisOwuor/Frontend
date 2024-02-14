@@ -79,8 +79,8 @@ export default function Home() {
           <h1 className="lg:text-3xl text-center  text-3xl font-semibold tracking-tight text-gray-900 ">
             Trusted by creators worldwide
           </h1>
-          <div class=" p-14   w-full ">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-x-8 gap-y-8 lg:gap-y-24">
+          <div className=" p-14   w-full ">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-8 gap-y-8 lg:gap-y-24">
               <div className="found text-center rounded-md bg-gray-200 lg:p-8 px-4 py-2  ">
                 <p className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
                   8,000+
