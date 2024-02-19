@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 export default function Missing() {
@@ -28,15 +28,21 @@ export default function Missing() {
     }
   };
   return (
-    <ul className="divide-y divide-gray-100 w-full">
+    <ul className="divide-y divide-gray-100 w-full h-screen">
       {notes.map((person, index) => (
-        <li key={index} className="flex justify-between gap-x-6 py-5">
-          <div className="flex min-w-0 gap-x-4">
-            <img
-              className="h-12 w-12 flex-none rounded-full bg-gray-50"
-              src={`http://127.0.0.1:8000${person.image}`}
-              alt="images"
-            />
+        <li
+          key={index}
+          className="flex justify-between gap-x-6 py-5 mb-3  rounded-md px-4 bg-gray-200"
+        >
+          <div className="flex min-w-0 gap-x-4 ">
+            <div className="img h-24 w-24">
+              {" "}
+              <img
+                className="h-24 w-24 object-cover flex-none rounded-md bg-gray-50"
+                src={`http://127.0.0.1:8000${person.image}`}
+                alt="images"
+              />
+            </div>
             <div className="min-w-0 flex-auto">
               <div className="flex gap-2">
                 {" "}
@@ -54,11 +60,11 @@ export default function Missing() {
                 Last Seen :{person.location}
               </p>
 
-              <Link to={`/single/?key=${person.trackCode}`}>
-                <p className="hover:bg-slate-700  bg-slate-500 w-max rounded px-1">
+              <NavLink to={`/single/?key=${person.trackCode}`}>
+                <p className="hover:bg-slate-200 mt-1 truncate text-xs leading-5  bg-slate-300 w-max rounded px-1">
                   view more
                 </p>
-              </Link>
+              </NavLink>
             </div>
           </div>
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">

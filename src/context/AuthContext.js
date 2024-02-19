@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   let updateToken = async () => {
     let response = await fetch("http://127.0.0.1:8000/auth/token/refresh/", {
       method: "POST",
@@ -81,15 +82,15 @@ export const AuthProvider = ({ children }) => {
       updateToken();
     }
 
-    let fourtynineMinutes = 1000 * 60 * 49;
+    let four = 1000 * 60 * 4;
 
     let interval = setInterval(() => {
       if (AuthTokens) {
         updateToken();
       }
-    }, fourtynineMinutes);
-    return () => clearInterval(interval);
-  });
+    }, four);
+    return () => clearInterval(interval)
+  },[AuthTokens, loading]);
 
   let logoutUser = () => {
     setAuthTokens(null);
