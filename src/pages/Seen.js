@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 export default function Seen() {
@@ -7,26 +7,25 @@ export default function Seen() {
   let { AuthTokens, logoutUser } = useContext(AuthContext);
 
   useEffect(() => {
+    let getNotes = async () => {
+      let response = await fetch("http://localhost:8000/api/found-person/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(AuthTokens.access),
+        },
+      });
+      let data = await response.json();
+
+      if (response.status === 200) {
+        setNotes(data);
+      } else if (response.statusText === "Unauthorized") {
+        logoutUser();
+      }
+    };
     getNotes();
-  }, []);
+  }, [AuthTokens.access, logoutUser, notes]);
 
-  let getNotes = async () => {
-    let response = await fetch("http://localhost:8000/api/found-person/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(AuthTokens.access),
-      },
-    });
-    let data = await response.json();
-
-    if (response.status === 200) {
-      setNotes(data);
-      console.log(notes);
-    } else if (response.statusText === "Unauthorized") {
-      logoutUser();
-    }
-  };
   return (
     <ul className="divide-y divide-gray-100 w-full h-screen">
       {notes.map((person, index) => (
