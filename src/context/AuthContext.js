@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
@@ -52,33 +52,40 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  let updateToken = async () => {
-    let response = await fetch("http://127.0.0.1:8000/auth/token/refresh/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refresh: AuthTokens?.refresh }),
-    });
-
-    let data = await response.json();
-
-    if (response.status === 200) {
-      setAuthTokens(data);
-      setUser(jwtDecode(data.access));
-      localStorage.setItem("Authtokens", JSON.stringify(data));
-    } else {
-      logoutUser();
-    }
-
-    if (loading) {
-      setLoading(false);
-    }
-  };
-
+  let logoutUser = useCallback(() => {
+    setAuthTokens(null);
+    setUser(null);
+    localStorage.removeItem("Authtokens");
+    navigate("/login");
+  }, [navigate]);
   useEffect(() => {
     if (loading) {
+      let updateToken = async () => {
+        let response = await fetch(
+          "http://127.0.0.1:8000/auth/token/refresh/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ refresh: AuthTokens?.refresh }),
+          }
+        );
+
+        let data = await response.json();
+
+        if (response.status === 200) {
+          setAuthTokens(data);
+          setUser(jwtDecode(data.access));
+          localStorage.setItem("Authtokens", JSON.stringify(data));
+        } else {
+          logoutUser();
+        }
+
+        if (loading) {
+          setLoading(false);
+        }
+      };
       updateToken();
     }
 
@@ -86,18 +93,38 @@ export const AuthProvider = ({ children }) => {
 
     let interval = setInterval(() => {
       if (AuthTokens) {
+        let updateToken = async () => {
+          let response = await fetch(
+            "http://127.0.0.1:8000/auth/token/refresh/",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ refresh: AuthTokens?.refresh }),
+            }
+          );
+
+          let data = await response.json();
+
+          if (response.status === 200) {
+            setAuthTokens(data);
+            setUser(jwtDecode(data.access));
+            localStorage.setItem("Authtokens", JSON.stringify(data));
+          } else {
+            logoutUser();
+          }
+
+          if (loading) {
+            setLoading(false);
+          }
+        };
         updateToken();
       }
     }, four);
-    return () => clearInterval(interval)
-  },[AuthTokens, loading]);
+    return () => clearInterval(interval);
+  }, [AuthTokens, loading, logoutUser]);
 
-  let logoutUser = () => {
-    setAuthTokens(null);
-    setUser(null);
-    localStorage.removeItem("Authtokens");
-    navigate("/login");
-  };
   let contextData = {
     user: user,
     logoutUser: logoutUser,
