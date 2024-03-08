@@ -15,7 +15,8 @@ export default function Example() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [service, setSevice] = useState("Services");
   return (
-    <div className="bg-gradient-to-b from-zinc-300 via-white to-zinc-100 ) h-full">
+    // <div className="bg-gradient-to-b from-zinc-300 via-white to-zinc-100 ) h-full overflow-hidden">
+    <div className="bg-red-300 h-[calc(100vh-52px)] overflow-y-hidden">
       <div>
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
@@ -127,7 +128,6 @@ export default function Example() {
                   </ul>
                 </form>
 
-                {/* Product grid */}
                 <div className="lg:col-span-3  lg:border-l-2 w-full ">
                   <Outlet />
                 </div>
