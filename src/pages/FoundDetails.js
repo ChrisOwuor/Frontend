@@ -9,7 +9,7 @@ export default function FoundDetails() {
   const [details, setdetails] = useState(null);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/seen/details/${ids}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/seen/details/${ids}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export default function FoundDetails() {
               <div className="image overflow-hidden rounded-md">
                 <img
                   className="h-auto w-full mx-auto"
-                  src={`http://127.0.0.1:8000${details && details[0].image}`}
+                  src={`${process.env.REACT_APP_API_URL}${details && details[0].image}`}
                   alt=""
                 />
               </div>
