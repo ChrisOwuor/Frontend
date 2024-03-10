@@ -49,7 +49,7 @@ export default function Addperson() {
 
     setIsLoading(true);
 
-    let res = await fetch("http://127.0.0.1:8000/api/add-missing/", {
+    let res = await fetch(`${process.env.REACT_APP_API_URL}/api/add-missing/`, {
       method: "POST",
       headers: {
         Authorization: "Bearer " + String(AuthTokens.access),

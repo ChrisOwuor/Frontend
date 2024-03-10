@@ -17,7 +17,7 @@ export default function Find() {
     console.log("clicked");
 
     const response = await fetch(
-      `http://127.0.0.1:8000/api/find-person/${code}`,
+      `${process.env.REACT_APP_API_URL}/api/find-person/${code}`,
       {
         method: "GET",
         headers: {

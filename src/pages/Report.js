@@ -47,13 +47,16 @@ export default function Report() {
 
     setIsLoading(true);
 
-    let res = await fetch("http://127.0.0.1:8000/api/report-person/", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + String(AuthTokens.access),
-      },
-      body: formData,
-    });
+    let res = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/report-person/`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + String(AuthTokens.access),
+        },
+        body: formData,
+      }
+    );
 
     if (res.status === 201) {
       setAlertMessage("Successfully added a person.");
