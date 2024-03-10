@@ -8,13 +8,16 @@ export default function Seen() {
 
   useEffect(() => {
     let getNotes = async () => {
-      let response = await fetch("http://localhost:8000/api/found-person/", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(AuthTokens.access),
-        },
-      });
+      let response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/found-person/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + String(AuthTokens.access),
+          },
+        }
+      );
       let data = await response.json();
 
       if (response.status === 200) {
@@ -38,7 +41,7 @@ export default function Seen() {
               {" "}
               <img
                 className="h-24 w-24 object-cover flex-none rounded-md bg-gray-50"
-                src={`http://127.0.0.1:8000${person.image}`}
+                src={`${process.env.REACT_APP_API_URL}${person.image}`}
                 alt="images"
               />
             </div>

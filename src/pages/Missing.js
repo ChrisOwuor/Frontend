@@ -3,29 +3,32 @@ import { NavLink } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 export default function Missing() {
+  
   let [notes, setNotes] = useState([]);
   let { AuthTokens, logoutUser } = useContext(AuthContext);
 
   useEffect(() => {
     let getNotes = async () => {
-      let response = await fetch("http://localhost:8000/api/missing-person/", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(AuthTokens.access),
-        },
-      });
+      let response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/missing-person/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + String(AuthTokens.access),
+          },
+        }
+      );
       let data = await response.json();
 
       if (response.status === 200) {
         setNotes(data);
-        console.log(notes);
       } else if (response.statusText === "Unauthorized") {
         logoutUser();
       }
     };
     getNotes();
-  }, [AuthTokens.access, logoutUser, notes]);
+  }, [AuthTokens.access, logoutUser]);
 
   return (
     <ul className="divide-y divide-gray-100 w-full h-screen">
@@ -39,7 +42,7 @@ export default function Missing() {
               {" "}
               <img
                 className="h-24 w-24 object-cover flex-none rounded-md bg-gray-50"
-                src={`http://127.0.0.1:8000${person.image}`}
+                src={`${process.env.REACT_APP_API_URL}${person.image}`}
                 alt="images"
               />
             </div>

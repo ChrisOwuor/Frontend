@@ -5,12 +5,14 @@ import ClearIcon from "@mui/icons-material/Clear";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import BasicModal from "./SearchModal";
+import AccordionExpandIcon from "./Accordion";
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   let { user, logoutUser } = useContext(AuthContext);
 
   return (
-    <header className="bg-gray-800  sticky top-0 z-10 p-0">
+    <header className="bg-white z-20  sticky top-0 p-0">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-2 lg:px-8 "
         aria-label="Global"
@@ -22,7 +24,7 @@ export default function Example() {
           >
             {" "}
             <div>
-              <p className="ml-20 text-white font-bold text-3xl underline max-[1200px]:text-x max-[1200px]:ml-0">
+              <p className=" text-black font-bold text-3xl  max-[1200px]:text-x max-[1200px]:ml-0">
                 Find <span className=" text-indigo-700 ">Me</span>{" "}
               </p>
             </div>
@@ -43,7 +45,7 @@ export default function Example() {
             {" "}
             <div className="services">
               <p
-                className="text-gray-300 hover:bg-gray-700 hover:text-white
+                className="text-black hover:underline-offset-2 hover:underline hover:text-black
                               rounded-md px-3 py-2 text-sm font-medium"
               >
                 Home
@@ -54,19 +56,18 @@ export default function Example() {
             {" "}
             <div className="dashboard">
               <p
-                className="text-gray-300 hover:bg-gray-700 hover:text-white
+                className="text-black hover:underline-offset-2 hover:underline hover:text-black
                               rounded-md px-3 py-2 text-sm font-medium"
               >
                 Dashboard
               </p>
             </div>
           </Link>
-
           <Link to={"/services/add_person"}>
             {" "}
             <div className="services">
               <p
-                className="text-gray-300 hover:bg-gray-700 hover:text-white
+                className="text-black hover:underline-offset-2 hover:underline hover:text-black
                               rounded-md px-3 py-2 text-sm font-medium"
               >
                 Services
@@ -75,14 +76,7 @@ export default function Example() {
           </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end">
-          {user && (
-            <p
-              className="text-gray-300  
-                              rounded-md px-3 py-2 text-sm font-medium"
-            >
-              Welcome {user.user_name}
-            </p>
-          )}
+          <BasicModal />
           {user && (
             <Link to="/user">
               {" "}
@@ -93,7 +87,7 @@ export default function Example() {
             <button onClick={logoutUser}>
               {" "}
               <p
-                className="text-gray-300 hover:bg-gray-700 hover:text-white
+                className="text-black hover:underline-offset-2 hover:underline hover:text-black
                               rounded-md px-3 py-2 text-sm font-medium"
               >
                 Logout{" "}
@@ -104,7 +98,7 @@ export default function Example() {
               {" "}
               <div className="report_person  cursor-pointer ">
                 <p
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white
+                  className="text-black hover:underline-offset-2 hover:underline hover:text-black
                               rounded-md px-3 py-2 text-sm font-medium"
                 >
                   Login{" "}
@@ -120,8 +114,8 @@ export default function Example() {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
-        <div className="fixed inset-0 z-10  " />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <div className="fixed inset-0   " />
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-40 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <Link to="/">
               {" "}
@@ -143,46 +137,108 @@ export default function Example() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-                <Link to={"/"} onClick={() => setMobileMenuOpen(false)}>
+                <Link
+                  to={"/"}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className=""
+                >
                   {" "}
                   <div className="services">
                     <p
-                      className="text-black hover:bg-gray-700 hover:text-white
-                              rounded-md px-3 py-2 text-sm font-medium"
+                      style={{ fontSize: 20, fontWeight: "medium" }}
+                      className="text-black hover:underline-offset-2 hover:underline hover:text-black
+                              rounded-md px-4 "
                     >
                       Home
                     </p>
                   </div>
                 </Link>
-                <Link
-                  to={"/dashboard/missing"}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {" "}
-                  <div className="dashboard">
-                    <p
-                      className="text-black hover:bg-gray-700 hover:text-white
-                              rounded-md px-3 py-2 text-sm font-medium"
+                <AccordionExpandIcon
+                  title="Dashboard"
+                  element1={
+                    <Link
+                      to={"/dashboard/missing"}
+                      onClick={() => setMobileMenuOpen(false)}
                     >
-                      Dashboard
-                    </p>
-                  </div>
-                </Link>
-
-                <Link
-                  to={"/services/add_person"}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {" "}
-                  <div className="services">
-                    <p
-                      className="text-black hover:bg-gray-700 hover:text-white
+                      {" "}
+                      <div className="dashboard">
+                        <p
+                          className="text-black hover:underline-offset-2 hover:underline hover:text-black
                               rounded-md px-3 py-2 text-sm font-medium"
+                        >
+                          Missing Persons
+                        </p>
+                      </div>
+                    </Link>
+                  }
+                  element2={
+                    <Link
+                      to={"/dashboard/seen"}
+                      onClick={() => setMobileMenuOpen(false)}
                     >
-                      Services
-                    </p>
-                  </div>
-                </Link>
+                      {" "}
+                      <div className="dashboard">
+                        <p
+                          className="text-black hover:underline-offset-2 hover:underline hover:text-black
+                              rounded-md px-3 py-2 text-sm font-medium"
+                        >
+                          Found Persons
+                        </p>
+                      </div>
+                    </Link>
+                  }
+                />
+                <AccordionExpandIcon
+                  title="Services"
+                  element1={
+                    <Link
+                      to={"/services/add_person"}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {" "}
+                      <div className="dashboard">
+                        <p
+                          className="text-black hover:underline-offset-2 hover:underline hover:text-black
+                              rounded-md px-3 py-2 text-sm font-medium"
+                        >
+                          Add person
+                        </p>
+                      </div>
+                    </Link>
+                  }
+                  element2={
+                    <Link
+                      to={"/services/report_person"}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {" "}
+                      <div className="services">
+                        <p
+                          className="text-black hover:underline-offset-2 hover:underline hover:text-black
+                              rounded-md px-3 py-2 text-sm font-medium"
+                        >
+                          Report Missing Person
+                        </p>
+                      </div>
+                    </Link>
+                  }
+                  element3={
+                    <Link
+                      to={"/services/find_person"}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {" "}
+                      <div className="services">
+                        <p
+                          className="text-black hover:underline-offset-2 hover:underline hover:text-black
+                              rounded-md px-3 py-2 text-sm font-medium"
+                        >
+                          Find Missing Person
+                        </p>
+                      </div>
+                    </Link>
+                  }
+                />
               </div>
               <div className="py-6">
                 {user && (
@@ -210,8 +266,9 @@ export default function Example() {
                   <button onClick={logoutUser}>
                     {" "}
                     <p
-                      className="text-black hover:bg-gray-700 
-                              rounded-md px-3 py-2 text-sm font-medium"
+                      style={{ fontSize: 20, fontWeight: "medium" }}
+                      className="text-black hover:underline-offset-2 hover:underline 
+                              rounded-md px-3 py-2 "
                     >
                       Logout{" "}
                     </p>
@@ -221,8 +278,9 @@ export default function Example() {
                     {" "}
                     <div className="report_person  cursor-pointer  ">
                       <p
-                        className="text-black hover:bg-gray-700 hover:text-white
-                              rounded-md px-3 py-2 text-sm font-medium"
+                        style={{ fontSize: 20, fontWeight: "medium" }}
+                        className="text-black hover:underline-offset-2 hover:underline hover:text-black
+                              rounded-md px-3 py-2 "
                       >
                         Login{" "}
                       </p>{" "}
