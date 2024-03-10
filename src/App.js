@@ -1,5 +1,5 @@
 import "./App.css";
-import Home from "./pages/Home";
+// import Home from "./pages/Home";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
@@ -20,6 +20,7 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import FoundDetails from "./pages/FoundDetails";
 import Stats from "./pages/Stats";
+import Header from "./components/Header";
 function App() {
   return (
     <div className="App);">
@@ -27,7 +28,7 @@ function App() {
         <AuthProvider>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Header/>} />
 
             <Route element={<PrivateRoutes />}>
               <Route path="/user" element={<Profile />} />

@@ -7,7 +7,7 @@ export default function Profile() {
   const [details, setdetails] = useState(null);
   let { AuthTokens } = useContext(AuthContext);
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/auth/profile/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/auth/profile/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   };
   let loginUser = async (e) => {
     e.preventDefault();
-    let response = await fetch("http://127.0.0.1:8000/auth/token/", {
+    let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/token/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
     if (loading) {
       let updateToken = async () => {
         let response = await fetch(
-          "http://127.0.0.1:8000/auth/token/refresh/",
+          `${process.env.REACT_APP_API_URL}/auth/token/refresh/`,
           {
             method: "POST",
             headers: {
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
       if (AuthTokens) {
         let updateToken = async () => {
           let response = await fetch(
-            "http://127.0.0.1:8000/auth/token/refresh/",
+            `${process.env.REACT_APP_API_URL}/auth/token/refresh/`,
             {
               method: "POST",
               headers: {
