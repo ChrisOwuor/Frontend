@@ -16,11 +16,11 @@ import Seen from "./pages/Seen";
 import PrivateRoutes from "./utils/PrivateRoute";
 
 import { AuthProvider } from "./context/AuthContext";
-import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import FoundDetails from "./pages/FoundDetails";
 import Stats from "./pages/Stats";
 import Header from "./components/Header";
+import UserProfile from "./pages/UserProfile";
 function App() {
   return (
     <div className="App);">
@@ -31,7 +31,7 @@ function App() {
             <Route path="/" element={<Header/>} />
 
             <Route element={<PrivateRoutes />}>
-              <Route path="/user" element={<Profile />} />
+              <Route path="/user" element={<UserProfile />} />
               <Route path="/single" element={<Single />} />
               <Route path="/details" element={<FoundDetails />} />
               <Route path="/stats" element={<Stats />} />
