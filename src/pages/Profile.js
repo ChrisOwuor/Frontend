@@ -23,7 +23,6 @@ export default function Profile() {
       })
       .then((data) => {
         setdetails(data);
-        console.log(data);
       });
   }, [AuthTokens.access]);
 
