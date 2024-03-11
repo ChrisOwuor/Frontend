@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import ResetPassModal from "../components/ResetPassModal";
 
 export default function Login() {
   const { loginUser, setEmail, setPass } = useContext(AuthContext);
@@ -43,12 +44,7 @@ export default function Login() {
                   Password
                 </label>
                 <div className="text-sm">
-                  <Link
-                    to="/"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </Link>
+                 <ResetPassModal/>
                 </div>
               </div>
               <div className="mt-2">
