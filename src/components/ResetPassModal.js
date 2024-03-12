@@ -3,12 +3,13 @@ import Box from "@mui/material/Box";
 
 import Modal from "@mui/material/Modal";
 import Otp from "./Otp";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
+
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import Alerts from "./Alert";
+import AlerttError from "./AlerttError";
 const style = {
   position: "absolute",
   top: "50%",
@@ -42,13 +43,12 @@ export default function ResetPassModal() {
       },
       body: JSON.stringify(body),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (res.status === 200) {
           return res.json();
         } else {
-          return res.json().then((data) => {
-            throw new Error(data.msg);
-          });
+          const data = await res.json();
+          throw new Error(data.msg);
         }
       })
       .then((data) => {
@@ -75,10 +75,6 @@ export default function ResetPassModal() {
           sx={style}
           className="lg:w-2/5 w-full h-full lg:h-4/5 rounded-lg outline-none"
         >
-          <Alert severity="success">
-            <AlertTitle>Success</AlertTitle>
-            This is a success Alert with an encouraging title.
-          </Alert>
           <div
             onClick={handleClose}
             className=" flex justify-end rounded-lg   "
@@ -88,6 +84,10 @@ export default function ResetPassModal() {
               <CloseIcon />
             </p>
           </div>
+          {emailData && (
+            <Alerts msg="An email has been sent with the otp code " />
+          )}
+          {emailError && <AlerttError msg={emailError}  />}
           <h1 className="text-3xl text-center font-semibold mb-4">
             Password Reset
           </h1>
