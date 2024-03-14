@@ -4,8 +4,6 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Otp from "./Otp";
 
-import { useContext } from "react";
-import AuthContext from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import Alerts from "./Alert";
@@ -27,9 +25,14 @@ export default function ResetPassModal() {
   const [email, setEmail] = useState("");
   const [emailData, setEmailData] = useState();
   const [emailError, setEmailError] = useState();
-
-  const [user_loading, setUser_loading] = useState(false);
-  const [email_loading, setEmail_loading] = useState(false);
+  const [emailOpen, setEmailOpen] = useState(false);
+  const [errorOpen, setErrorOpen] = useState(false);
+  const [otpRes, setOtpRes] = useState("");
+  const [otpUser, setOtpUser] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [passRes, setPassRes] = useState("");
+  const [passErr, setPassErr] = useState("");
 
   const checkEmail = (e) => {
     e.preventDefault();
@@ -53,10 +56,70 @@ export default function ResetPassModal() {
       })
       .then((data) => {
         setEmailData(data);
+        setEmailOpen(true);
+        setTimeout(() => {
+          setEmailOpen(false);
+        }, 2000);
       })
-      .catch((err) => setEmailError(err.message));
+      .catch((err) => {
+        setEmailError(err.message);
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+        }, 2000);
+      });
   };
-
+  const getOtp = async (data) => {
+    const body = {
+      code: data,
+    };
+    let res = await fetch(
+      `${process.env.REACT_APP_API_URL}/auth/profile/verify/passkey/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    if (res.status === 200) {
+      let res_data = await res.json();
+      setOtpRes(res_data.msg);
+      setOtpUser(res_data.user);
+      setOtpError("");
+    } else {
+      let res_data = await res.json();
+      setOtpError(res_data.msg);
+      setOtpRes("");
+    }
+  };
+  const resetPass = async (e, user) => {
+    e.preventDefault();
+    const body = {
+      password: newPass,
+      code: emailData.code,
+    };
+    let res = await fetch(
+      `${process.env.REACT_APP_API_URL}/auth/profile/change/passkey/${user}/`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    if (res.status === 200) {
+      let res_data = await res.json();
+      setPassRes(res_data);
+      setPassErr("");
+    } else {
+      let res_data = await res.json();
+      setPassErr(res_data);
+      setPassRes("");
+    }
+  };
   return (
     <div>
       <p
@@ -84,10 +147,12 @@ export default function ResetPassModal() {
               <CloseIcon />
             </p>
           </div>
-          {emailData && (
+          {emailOpen && (
             <Alerts msg="An email has been sent with the otp code " />
-          )}
-          {emailError && <AlerttError msg={emailError}  />}
+          )}{" "}
+          {errorOpen && <AlerttError msg={emailError} />}
+          {passRes && <Alerts msg={passRes.msg} />}
+          {passErr && <AlerttError msg={passErr.msg} />}
           <h1 className="text-3xl text-center font-semibold mb-4">
             Password Reset
           </h1>
@@ -116,25 +181,31 @@ export default function ResetPassModal() {
               </div>
             </>
           )}
-          {emailData && <Otp />}
-          <div className="mt-6 flex flex-col items-center">
-            <p className="text-gray-600 text-center ">
-              Enter your new password
-            </p>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="items-center justify-center sm:flex"
-            >
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="text-gray-500 w-max p-3 rounded-md border outline-none "
-              />
-              <button className="w-max mt-3 px-5 py-3 rounded-md text-white bg-indigo-600  outline-none hover:bg-indigo-500   sm:mt-0 sm:ml-3 sm:w-auto">
-                Reset Password
-              </button>
-            </form>
-          </div>
+          {emailData && <Otp getOtp={getOtp} otpRes={otpRes} />}
+          {otpRes && (
+            <div className="mt-6 flex flex-col items-center">
+              <p className="text-gray-600 text-center ">{otpRes}</p>
+              <form
+                onSubmit={(e) => resetPass(e, otpUser)}
+                className="items-center justify-center sm:flex"
+              >
+                <input
+                  type="password"
+                  onChange={(e) => setNewPass(e.target.value)}
+                  placeholder="Enter your new password"
+                  className="text-gray-500 w-max p-3 rounded-md border outline-none "
+                />
+                <button className="w-max mt-3 px-5 py-3 rounded-md text-white bg-indigo-600  outline-none hover:bg-indigo-500   sm:mt-0 sm:ml-3 sm:w-auto">
+                  Reset Password
+                </button>
+              </form>
+            </div>
+          )}
+          {otpError ? (
+            <p className="text-gray-600 text-center ">{otpError}</p>
+          ) : (
+            <p></p>
+          )}
         </Box>
       </Modal>
     </div>
