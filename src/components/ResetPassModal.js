@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Otp from "./Otp";
 
-import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import Alerts from "./Alert";
 import AlerttError from "./AlerttError";
@@ -13,7 +12,6 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-
   bgcolor: "background.paper",
   p: 4,
 };
