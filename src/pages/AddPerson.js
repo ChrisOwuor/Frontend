@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { Alert } from "@mui/material";
+import MapModal from "../components/MapModal";
 
 export default function Addperson() {
   const [first_name, setfName] = useState("");
@@ -76,7 +77,7 @@ export default function Addperson() {
     <form className="px-6">
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">
+          <h2 className="text-xl font-semibold leading-7 text-gray-900 ">
             Personal Information
           </h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
@@ -176,29 +177,7 @@ export default function Addperson() {
                 />
               </div>
             </div>
-            <div className="col-span-full">
-              <label
-                htmlFor="street-address"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Location Last Seen
-              </label>
-              <p className="mt-1 text-sm leading-6 text-gray-600">
-                Provide the location last seen
-              </p>
-              <div className="mt-2">
-                <input
-                  onChange={(e) => {
-                    setLocation(e.target.value);
-                  }}
-                  type="text"
-                  name="location"
-                  id="street-address"
-                  autoComplete="street-address"
-                  className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+
             <div className="sm:col-span-3 sm:col-start-1">
               <label
                 htmlFor="age"
@@ -222,52 +201,82 @@ export default function Addperson() {
                 />
               </div>
             </div>
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="region"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                County
-              </label>
+          </div>
+        </div>
+
+        <div className="border-b-2  pb-12">
+          <div className="mt-10 space-y-10">
+            <fieldset>
+              <h1 className="text-xl font-semibold leading-6 text-gray-900">
+                Gender Information{" "}
+              </h1>
               <p className="mt-1 text-sm leading-6 text-gray-600">
-                Provide county of origin
+                Provide accurate infromation on the gender of the missing person
               </p>
-              <div className="mt-2">
-                <input
-                  onChange={(e) => {
-                    setcounty(e.target.value);
-                  }}
-                  type="text"
-                  name="county"
-                  id="region"
-                  autoComplete="address-level1"
-                  className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+
+              <div className="mt-6 space-y-6">
+                <div className="flex items-center gap-x-3">
+                  <input
+                    value="Male"
+                    onChange={(e) => {
+                      setgender(e.target.value);
+                    }}
+                    name="gender"
+                    type="radio"
+                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  />
+                  <label
+                    htmlFor="push-everything"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Male
+                  </label>
+                </div>
+                <div className="flex items-center gap-x-3">
+                  <input
+                    value="Female"
+                    onChange={(e) => {
+                      setgender(e.target.value);
+                    }}
+                    name="gender"
+                    type="radio"
+                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  />
+                  <label
+                    htmlFor="push-email"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Female
+                  </label>
+                </div>
+                <div className="flex items-center gap-x-3">
+                  <input
+                    value="Don't disclose"
+                    onChange={(e) => {
+                      setgender(e.target.value);
+                    }}
+                    name="gender"
+                    type="radio"
+                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  />
+                  <label
+                    htmlFor="push-nothing"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Don't Disclose
+                  </label>
+                </div>
               </div>
-            </div>
-            <div className="sm:col-span-full">
-              <label
-                htmlFor="last_seen"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Date Last Seen
-              </label>{" "}
-              <p className="mt-1 text-sm leading-6 text-gray-600">
-                Provide the date you were last in contact
-              </p>
-              <div className="mt-2">
-                <input
-                  onChange={(e) => {
-                    setlast_seen(e.target.value);
-                  }}
-                  type="date"
-                  name="last_seen"
-                  id="last_seen"
-                  autoComplete="address-level1"
-                  className="block w-full px-2 rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>{" "}
+            </fieldset>
+          </div>
+        </div>
+        <div className="physical border-b-2 pb-4 ">
+          <h1 className="text-xl font-semibold"> Physical information</h1>
+          <p className="mt-1 text-sm leading-6 text-gray-600">
+            Provide accurate information about the physical appearance of the
+            person
+          </p>
+          <div className="details mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
               <label
                 htmlFor="eye_color"
@@ -366,67 +375,69 @@ export default function Addperson() {
           </div>
         </div>
 
-        <div className="border-b border-gray-900/10 pb-12">
-          <div className="mt-10 space-y-10">
-            <fieldset>
-              <legend className="text-sm font-semibold leading-6 text-gray-900">
-                Choose Gender{" "}
-              </legend>
-
-              <div className="mt-6 space-y-6">
-                <div className="flex items-center gap-x-3">
-                  <input
-                    value="Male"
-                    onChange={(e) => {
-                      setgender(e.target.value);
-                    }}
-                    name="gender"
-                    type="radio"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label
-                    htmlFor="push-everything"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Male
-                  </label>
-                </div>
-                <div className="flex items-center gap-x-3">
-                  <input
-                    value="Female"
-                    onChange={(e) => {
-                      setgender(e.target.value);
-                    }}
-                    name="gender"
-                    type="radio"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label
-                    htmlFor="push-email"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Female
-                  </label>
-                </div>
-                <div className="flex items-center gap-x-3">
-                  <input
-                    value="Don't disclose"
-                    onChange={(e) => {
-                      setgender(e.target.value);
-                    }}
-                    name="gender"
-                    type="radio"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label
-                    htmlFor="push-nothing"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Don't Disclose
-                  </label>
-                </div>
+        <div className="locations ">
+          <h1 className="font-semibold text-xl">Location Information</h1>
+          <div className="location_inputs mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="sm:col-span-3">
+              <label
+                htmlFor="region"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                County
+              </label>
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Provide county of origin
+              </p>
+              <div className="mt-2">
+                <input
+                  onChange={(e) => {
+                    setcounty(e.target.value);
+                  }}
+                  type="text"
+                  name="county"
+                  id="region"
+                  autoComplete="address-level1"
+                  className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
               </div>
-            </fieldset>
+            </div>
+            <div className="sm:col-span-3">
+              <label
+                htmlFor="last_seen"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Date Last Seen
+              </label>{" "}
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Provide the date you were last in contact
+              </p>
+              <div className="mt-2">
+                <input
+                  onChange={(e) => {
+                    setlast_seen(e.target.value);
+                  }}
+                  type="date"
+                  name="last_seen"
+                  id="last_seen"
+                  autoComplete="address-level1"
+                  className="block w-full px-2 rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>{" "}
+            <div className="col-span-3">
+              <label
+                htmlFor="street-address"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Location Last Seen
+              </label>
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Provide the location last seen
+              </p>
+              <MapModal />
+
+              <div className="mt-2"></div>
+            </div>
           </div>
         </div>
       </div>
