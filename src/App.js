@@ -21,6 +21,9 @@ import FoundDetails from "./pages/FoundDetails";
 import Stats from "./pages/Stats";
 import Header from "./components/Header";
 import UserProfile from "./pages/UserProfile";
+import MapView from "./components/MapView";
+import Statistics from "./components/Statistics";
+import Case from "./components/Case";
 function App() {
   return (
     <div className="App);">
@@ -28,7 +31,7 @@ function App() {
         <AuthProvider>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Header/>} />
+            <Route path="/" element={<Header />} />
 
             <Route element={<PrivateRoutes />}>
               <Route path="/user" element={<UserProfile />} />
@@ -41,6 +44,9 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route path="/dashboard/missing" element={<Missing />} />
                 <Route path="/dashboard/seen" element={<Seen />} />
+                <Route path="/dashboard/statistics" element={<Statistics />} />
+                <Route path="/dashboard/map/view" element={<MapView />} />
+                <Route path="/dashboard/cases/" element={<Case />} />
               </Route>
             </Route>
             <Route path="/signup" element={<Signup />} />

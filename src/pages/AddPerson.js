@@ -434,8 +434,18 @@ export default function Addperson() {
               <p className="mt-1 text-sm leading-6 text-gray-600">
                 Provide the location last seen
               </p>
-              <MapModal />
 
+              <MapModal setLocation={setLocation} />
+              {location && (
+                <div>
+                  <h1 className="font-semibold">Location Details</h1>
+                  <div className="text-gray-500">
+                    <p>Latitude: {location.lat}</p>
+                    <p>Longitude: {location.lng}</p>
+                    <p>Name: {location.address}</p>
+                  </div>
+                </div>
+              )}
               <div className="mt-2"></div>
             </div>
           </div>

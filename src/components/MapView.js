@@ -5,21 +5,64 @@ import {
   MarkerF,
   InfoWindowF,
 } from "@react-google-maps/api";
-import PlaceSearchAutocomplete from "./PlaceSearchAutocomplete";
 
 const containerStyle = {
   width: "100%",
-  height: "70vh",
+  height: "80vh",
 };
 
 const options = {
   mapTypeControl: false,
+  streetViewControl: false,
+  disableDefaultUI: true,
 };
 
-function Map({ setLocation, handleClose }) {
+const markers = [
+  {
+    name: "Michael Wiston",
+    status: "Found",
+    location: {
+      lat: -1.2065884529293276,
+      lng: 36.782730427176205,
+    },
+  },
+  {
+    name: "Antony Lusili",
+    status: "Found",
+    location: {
+      lat: -1.2309777603620737,
+      lng: 36.70371240245916,
+    },
+  },
+  {
+    name: "David Asiku",
+    status: "Missing",
+    location: {
+      lat: -1.235219356232188,
+      lng: 36.67374919172594,
+    },
+  },
+  {
+    name: "Steve Wamalwa",
+    status: "Missing",
+    location: {
+      lat: -1.246088414726342,
+      lng: 36.79254138940811,
+    },
+  },
+  {
+    name: "Mary Auma",
+    status: "missing",
+    location: {
+      lat: -1.2800207946839268,
+      lng: 36.87315038111518,
+    },
+  },
+];
+function MapView({ setLocation, handleClose }) {
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
-  const [zoom, setZoom] = useState(8);
+  const [zoom, setZoom] = useState(12);
   const [address, setAddress] = useState("");
 
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -33,20 +76,6 @@ function Map({ setLocation, handleClose }) {
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
   });
 
-  const handleMarkerClick = (e) => {
-    const location = {
-      lat: e.latLng.lat(),
-      lng: e.latLng.lng(),
-    };
-
-    const markerDetail = {
-      location,
-      name: address,
-    };
-    setSelectedMarker(markerDetail);
-    setZoom(15);
-  };
-
   const HandleLocationSelection = (e) => {
     e.preventDefault();
 
@@ -55,6 +84,7 @@ function Map({ setLocation, handleClose }) {
   };
   return (
     <div className="w-full h-full mx-auto  ">
+      <h1 className="font-semibold">Missing And found person distributon</h1>
       {isLoaded ? (
         <div className="relative">
           {" "}
@@ -64,38 +94,54 @@ function Map({ setLocation, handleClose }) {
             zoom={zoom}
             options={options}
           >
-            
-            <MarkerF
-              position={{ lat: lat, lng: lng }}
-              onClick={(e) => handleMarkerClick(e)}
-            />
+            <>
+              {" "}
+              {markers.map((marker) => {
+                return (
+                  <div key={marker.name}>
+                    <MarkerF
+                      position={marker.location}
+                      onClick={() => {
+                        setSelectedMarker(marker);
+                        setLat(marker.location.lat);
+                        setLng(marker.location.lng);
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </>
+
             {selectedMarker && (
-              <InfoWindowF position={selectedMarker.location}>
+              <InfoWindowF
+                position={selectedMarker.location}
+                onCloseClick={() => {
+                  setSelectedMarker(null);
+                }}
+              >
                 <div className="bg-white">
-                  <h1 className="fo font-light text-sm">
-                    Name -{" "}
+                  <h1>
+                    Name <span></span>
                     <span className="font-semi-bold">
                       {selectedMarker.name}
                     </span>
                   </h1>
+                  <p>
+                    {" "}
+                    <span className="text-sm font-semibold">Status</span> :
+                    {selectedMarker.status}
+                  </p>
+
                   <button
                     onClick={(e) => HandleLocationSelection(e)}
                     className="bg-green-300 p-1 rounded-sm font-semibold shadow-md mt-3 hover:bg-green-200"
                   >
-                    Select This location
+                    View Person details
                   </button>
                 </div>
               </InfoWindowF>
             )}
           </GoogleMap>
-          <div className="search absolute top-4 left-0 w-full lg:w-1/2 h-max pl-2 pt-2">
-            <PlaceSearchAutocomplete
-              setLat={setLat}
-              setLng={setLng}
-              setZoom={setZoom}
-              setAddress={setAddress}
-            />
-          </div>
         </div>
       ) : (
         <div class="text-center">
@@ -123,4 +169,4 @@ function Map({ setLocation, handleClose }) {
   );
 }
 
-export default React.memo(Map);
+export default React.memo(MapView);

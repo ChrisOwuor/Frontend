@@ -4,7 +4,12 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 
-export default function PlaceSearchAutocomplete({ setLat, setLng ,setZoom }) {
+export default function PlaceSearchAutocomplete({
+  setLat,
+  setLng,
+  setZoom,
+  setAddress,
+}) {
   const {
     ready,
     value,
@@ -15,8 +20,8 @@ export default function PlaceSearchAutocomplete({ setLat, setLng ,setZoom }) {
     debounce: 300,
   });
   const ref = useOnclickOutside(() => {
-      clearSuggestions();
-      setZoom(8)
+    clearSuggestions();
+    setZoom(8);
   });
 
   const handleInput = (e) => {
@@ -32,7 +37,8 @@ export default function PlaceSearchAutocomplete({ setLat, setLng ,setZoom }) {
         const { lat, lng } = getLatLng(results[0]);
         setLng(lng);
         setLat(lat);
-        setZoom(14)
+        setZoom(14);
+        setAddress(description);
       });
     };
 
@@ -44,7 +50,11 @@ export default function PlaceSearchAutocomplete({ setLat, setLng ,setZoom }) {
       } = suggestion;
 
       return (
-        <li className="cursor-pointer my-1 " key={place_id} onClick={handleSelect(suggestion)}>
+        <li
+          className="cursor-pointer my-1 "
+          key={place_id}
+          onClick={handleSelect(suggestion)}
+        >
           <strong>{main_text}</strong> <small>{secondary_text}</small>
         </li>
       );
