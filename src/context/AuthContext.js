@@ -109,6 +109,7 @@ export const AuthProvider = ({ children }) => {
 
       return () => clearInterval(interval);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, AuthTokens, loading]);
 
   let logoutUser = useCallback(() => {

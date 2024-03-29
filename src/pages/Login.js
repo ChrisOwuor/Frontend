@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import ResetPassModal from "../components/ResetPassModal";
-import { Alert, Modal } from "@mui/material";
 import AlerttError from "../components/AlerttError";
 
 export default function Login() {
