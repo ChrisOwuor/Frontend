@@ -30,7 +30,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Distribution of Cases",
+      text: "Distribution of Cases over thr year",
     },
   },
 };
