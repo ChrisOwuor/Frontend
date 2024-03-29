@@ -2,7 +2,6 @@ import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { Alert } from "@mui/material";
 import MapModal from "../components/MapModal";
 import SuccessModal from "../components/SuccessModal";
 
