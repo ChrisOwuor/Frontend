@@ -4,16 +4,12 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 
-<<<<<<< HEAD
 export default function PlaceSearchAutocomplete({
   setLat,
   setLng,
   setZoom,
   setAddress,
 }) {
-=======
-export default function PlaceSearchAutocomplete({ setLat, setLng ,setZoom }) {
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
   const {
     ready,
     value,
@@ -24,13 +20,8 @@ export default function PlaceSearchAutocomplete({ setLat, setLng ,setZoom }) {
     debounce: 300,
   });
   const ref = useOnclickOutside(() => {
-<<<<<<< HEAD
     clearSuggestions();
     setZoom(8);
-=======
-      clearSuggestions();
-      setZoom(8)
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
   });
 
   const handleInput = (e) => {
@@ -46,12 +37,8 @@ export default function PlaceSearchAutocomplete({ setLat, setLng ,setZoom }) {
         const { lat, lng } = getLatLng(results[0]);
         setLng(lng);
         setLat(lat);
-<<<<<<< HEAD
         setZoom(14);
         setAddress(description);
-=======
-        setZoom(14)
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
       });
     };
 
@@ -63,15 +50,11 @@ export default function PlaceSearchAutocomplete({ setLat, setLng ,setZoom }) {
       } = suggestion;
 
       return (
-<<<<<<< HEAD
         <li
           className="cursor-pointer my-1 "
           key={place_id}
           onClick={handleSelect(suggestion)}
         >
-=======
-        <li className="cursor-pointer my-1 " key={place_id} onClick={handleSelect(suggestion)}>
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
           <strong>{main_text}</strong> <small>{secondary_text}</small>
         </li>
       );

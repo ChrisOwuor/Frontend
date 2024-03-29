@@ -446,8 +446,6 @@ export default function Addperson() {
                   </div>
                 </div>
               )}
-              <MapModal />
-
               <div className="mt-2"></div>
             </div>
           </div>

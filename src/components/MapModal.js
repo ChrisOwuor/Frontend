@@ -12,11 +12,7 @@ const style = {
   p: 1,
 };
 
-<<<<<<< HEAD
 export default function MapModal({ setLocation }) {
-=======
-export default function MapModal() {
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -62,11 +58,7 @@ export default function MapModal() {
             </button>
           </div>
           <div>
-<<<<<<< HEAD
-            <Places handleClose={handleClose}  setLocation={setLocation}/>
-=======
-            <Places />
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
+            <Places handleClose={handleClose} setLocation={setLocation} />
           </div>
         </Box>
       </Modal>

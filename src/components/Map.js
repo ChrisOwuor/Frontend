@@ -3,11 +3,7 @@ import {
   GoogleMap,
   useJsApiLoader,
   MarkerF,
-<<<<<<< HEAD
   InfoWindowF,
-=======
-  InfoWindow,
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
 } from "@react-google-maps/api";
 import PlaceSearchAutocomplete from "./PlaceSearchAutocomplete";
 
@@ -20,61 +16,12 @@ const options = {
   mapTypeControl: false,
 };
 
-<<<<<<< HEAD
 function Map({ setLocation, handleClose }) {
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [zoom, setZoom] = useState(8);
   const [address, setAddress] = useState("");
 
-=======
-const markers = [
-  {
-    name: "Michael Wiston",
-    status: "Found",
-    location: {
-      lat: -1.2065884529293276,
-      lng: 36.782730427176205,
-    },
-  },
-  {
-    name: "Antony Lusili",
-    status: "Found",
-    location: {
-      lat: -1.2309777603620737,
-      lng: 36.70371240245916,
-    },
-  },
-  {
-    name: "David Asiku",
-    status: "Missing",
-    location: {
-      lat: -1.235219356232188,
-      lng: 36.67374919172594,
-    },
-  },
-  {
-    name: "Steve Wamalwa",
-    status: "Missing",
-    location: {
-      lat: -1.246088414726342,
-      lng: 36.79254138940811,
-    },
-  },
-  {
-    name: "Mary Auma",
-    status: "missing",
-    location: {
-      lat: -1.2800207946839268,
-      lng: 36.87315038111518,
-    },
-  },
-];
-function Map() {
-  const [lat, setLat] = useState(null);
-  const [lng, setLng] = useState(null);
-  const [zoom, setZoom] = useState(8);
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
   const [selectedMarker, setSelectedMarker] = useState(null);
 
   const center = {
@@ -86,7 +33,6 @@ function Map() {
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
   });
 
-<<<<<<< HEAD
   const handleMarkerClick = (e) => {
     const location = {
       lat: e.latLng.lat(),
@@ -107,8 +53,6 @@ function Map() {
     setLocation({ lat, lng, address });
     handleClose();
   };
-=======
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
   return (
     <div className="w-full h-full mx-auto  ">
       {isLoaded ? (
@@ -120,7 +64,6 @@ function Map() {
             zoom={zoom}
             options={options}
           >
-<<<<<<< HEAD
             
             <MarkerF
               position={{ lat: lat, lng: lng }}
@@ -130,37 +73,11 @@ function Map() {
               <InfoWindowF position={selectedMarker.location}>
                 <div className="bg-white">
                   <h1 className="fo font-light text-sm">
-=======
-            {markers.map((marker) => {
-              return (
-                <div key={marker.name}>
-                  <MarkerF
-                    position={marker.location}
-                    onClick={() => {
-                      setSelectedMarker(marker);
-                      setLat(marker.location.lat);
-                      setLng(marker.location.lng);
-                    }}
-                  />
-                </div>
-              );
-            })}
-            {selectedMarker && (
-              <InfoWindow
-                position={selectedMarker.location}
-                options={{
-                  pixelOffset: new window.google.maps.Size(0, -40),
-                }}
-              >
-                <div>
-                  <h1 className="font-bold text-xl">
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
                     Name -{" "}
                     <span className="font-semi-bold">
                       {selectedMarker.name}
                     </span>
                   </h1>
-<<<<<<< HEAD
                   <button
                     onClick={(e) => HandleLocationSelection(e)}
                     className="bg-green-300 p-1 rounded-sm font-semibold shadow-md mt-3 hover:bg-green-200"
@@ -169,16 +86,6 @@ function Map() {
                   </button>
                 </div>
               </InfoWindowF>
-=======
-                  <h1>
-                    status -
-                    <span className={`${selectedMarker.status ==="missing" ?"text-red-400": "text-green-600"} `}>
-                      {selectedMarker.status}
-                    </span>{" "}
-                  </h1>
-                </div>
-              </InfoWindow>
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
             )}
           </GoogleMap>
           <div className="search absolute top-4 left-0 w-full lg:w-1/2 h-max pl-2 pt-2">
@@ -186,10 +93,7 @@ function Map() {
               setLat={setLat}
               setLng={setLng}
               setZoom={setZoom}
-<<<<<<< HEAD
               setAddress={setAddress}
-=======
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
             />
           </div>
         </div>

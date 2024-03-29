@@ -21,12 +21,9 @@ import FoundDetails from "./pages/FoundDetails";
 import Stats from "./pages/Stats";
 import Header from "./components/Header";
 import UserProfile from "./pages/UserProfile";
-<<<<<<< HEAD
 import MapView from "./components/MapView";
 import Statistics from "./components/Statistics";
 import Case from "./components/Case";
-=======
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
 function App() {
   return (
     <div className="App);">
@@ -34,11 +31,7 @@ function App() {
         <AuthProvider>
           <Navbar />
           <Routes>
-<<<<<<< HEAD
             <Route path="/" element={<Header />} />
-=======
-            <Route path="/" element={<Header/>} />
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
 
             <Route element={<PrivateRoutes />}>
               <Route path="/user" element={<UserProfile />} />
@@ -51,12 +44,9 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route path="/dashboard/missing" element={<Missing />} />
                 <Route path="/dashboard/seen" element={<Seen />} />
-<<<<<<< HEAD
                 <Route path="/dashboard/statistics" element={<Statistics />} />
                 <Route path="/dashboard/map/view" element={<MapView />} />
                 <Route path="/dashboard/cases/" element={<Case />} />
-=======
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
               </Route>
             </Route>
             <Route path="/signup" element={<Signup />} />
