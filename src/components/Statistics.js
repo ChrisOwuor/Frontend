@@ -56,7 +56,6 @@ export default function Statistics() {
   return (
     <>
       <Bar options={options} data={data} />
-      <LineChart />
     </>
   );
 }

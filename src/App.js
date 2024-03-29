@@ -39,7 +39,7 @@ function App() {
             </Route>
             <Route path="/login" element={<Login />} />
             <Route element={<PrivateRoutes />}>
-              <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="/dashboard" element={<Dashboard /> }>
                 <Route path="/dashboard/missing" element={<Missing />} />
                 <Route path="/dashboard/seen" element={<Seen />} />
                 <Route path="/dashboard/statistics" element={<Statistics />} />

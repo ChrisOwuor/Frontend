@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import ResetPassModal from "../components/ResetPassModal";
+import { Alert, Modal } from "@mui/material";
+import AlerttError from "../components/AlerttError";
 
 export default function Login() {
-  const { loginUser, setEmail, setPass } = useContext(AuthContext);
+  const { loginUser, setEmail, setPass, loginerror } = useContext(AuthContext);
   return (
     <>
+      <div>{loginerror && <AlerttError msg={loginerror} />}</div>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gradient-to-b from-cyan-100 via-indigo-200 to-zinc-800)">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -44,7 +47,7 @@ export default function Login() {
                   Password
                 </label>
                 <div className="text-sm">
-                 <ResetPassModal/>
+                  <ResetPassModal />
                 </div>
               </div>
               <div className="mt-2">

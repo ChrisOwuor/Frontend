@@ -12,7 +12,7 @@ const style = {
   p: 1,
 };
 
-export default function MapModal({ setLocation }) {
+export default function MapModal({ setName, setLongitude, setLatitude }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -58,7 +58,12 @@ export default function MapModal({ setLocation }) {
             </button>
           </div>
           <div>
-            <Places handleClose={handleClose} setLocation={setLocation} />
+            <Places
+              handleClose={handleClose}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
+              setName={setName}
+            />
           </div>
         </Box>
       </Modal>
