@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import Spinnner from "../components/Spinnner";
 export default function Find() {
   const [code, setCode] = useState("");
   const [fpsn, setfPsn] = useState([]);
   const [mpsn, setmPsn] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [loaded, setLoaded] = useState(false);
 
@@ -14,7 +16,7 @@ export default function Find() {
 
   const HandleClick = async (e) => {
     e.preventDefault();
-    console.log("clicked");
+    setLoading(true);
 
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/api/find-person/${code}`,
@@ -31,46 +33,50 @@ export default function Find() {
       setfPsn(data.matches);
       setmPsn(data.mps);
       setLoaded(true);
+      setLoading(false);
+    } else {
+      setLoading(false);
     }
   };
   return (
     <div className="h-screen">
       <div className="full flex justify-start px-12">
         <form className="w-3/5 max-[1200px]:w-full ">
-            <div className="border-b border-gray-900/10 pb-3">
-              <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
-                <div className="sm:col-span-4">
-                  <label
-                    htmlFor="username"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Enter Missing Track Code
-                  </label>
-                  <div className="mt-2">
-                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                      <input
-                        type="text"
-                        name="name"
-                        id="username"
-                        className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder="KXGD1432W4"
-                        value={code}
-                        onChange={(e) => setCode(e.target.value)}
-                      />
-                    </div>
+          <div className="border-b border-gray-900/10 pb-3">
+            <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Enter Missing Track Code
+                </label>
+                <div className="mt-2">
+                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                    <input
+                      type="text"
+                      name="name"
+                      id="username"
+                      className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                      placeholder="KXGD1432W4"
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                    />
                   </div>
                 </div>
-                <div className="mt-6 flex items-center justify-start gap-x-6">
-                  <button
-                    onClick={(e) => HandleClick(e)}
-                    type="submit"
-                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    Search
-                  </button>
-                </div>
+              </div>
+              <div className="mt-6 flex items-center justify-start gap-x-6">
+                <button
+                  onClick={(e) => HandleClick(e)}
+                  type="submit"
+                  disabled={loading}
+                  className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  {loading ? <Spinnner /> : "Search"}
+                </button>
               </div>
             </div>
+          </div>
         </form>
       </div>
       <div className="  w-full">
@@ -111,15 +117,12 @@ export default function Find() {
                       Name : {fPsn.name}
                     </h3>
                     <p className="age">Age :{fPsn.age}</p>
-                    <Link
-                      to={`/stats/?key=${fPsn.id}`}
-                    >
+                    <Link to={`/stats/?key=${fPsn.id}`}>
                       {" "}
                       <p className="inline-block rounded-md border border-transparent bg-indigo-600 px-4 py-1 text-center font-medium text-white hover:bg-indigo-700 mt-2">
                         View stats
                       </p>{" "}
                     </Link>{" "}
-                    {/* <p className="description">Description :{psn[0].description}</p> */}
                   </div>
                 ))}
               </div>

@@ -4,6 +4,7 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { Alert } from "@mui/material";
 import MapModal from "../components/MapModal";
+import SuccessModal from "../components/SuccessModal";
 
 export default function Addperson() {
   const [first_name, setfName] = useState("");
@@ -11,7 +12,6 @@ export default function Addperson() {
   const [last_name, setlame] = useState("");
   const [nick_name, setnName] = useState("");
   const [age, setAge] = useState("");
-  const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [hair_color, sethair_color] = useState("");
@@ -19,6 +19,9 @@ export default function Addperson() {
   const [last_seen, setlast_seen] = useState("");
   const [eye_color, seteye_color] = useState("");
   const [gender, setgender] = useState("");
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
+  const [name, setName] = useState("");
 
   const handleImageChange = async (e) => {
     const selectedImage = await e.target.files[0];
@@ -34,22 +37,25 @@ export default function Addperson() {
   formData.append("eye_color", eye_color);
   formData.append("hair_color", hair_color);
   formData.append("age", age);
-  formData.append("location", location);
   formData.append("description", description);
   formData.append("image", image);
   formData.append("gender", gender);
+  formData.append("latitude", latitude);
+  formData.append("longitude", longitude);
+  formData.append("name", name);
 
   let { AuthTokens } = useContext(AuthContext);
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [code, setCode] = useState("");
+const HandleSubmit = async (e) => {
+  e.preventDefault();
 
-  const HandleSubmit = async (e) => {
-    e.preventDefault();
+  setIsLoading(true);
 
-    setIsLoading(true);
-
+  try {
     let res = await fetch(`${process.env.REACT_APP_API_URL}/api/add-missing/`, {
       method: "POST",
       headers: {
@@ -58,20 +64,22 @@ export default function Addperson() {
       body: formData,
     });
 
-    if (res.status === 201) {
-      setAlertMessage("Successfully added a person.");
-      setShowAlert(true);
-
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 5000);
-    } else {
-      setAlertMessage("Oops! Something went wrong. Please try again.");
-      setShowAlert(true);
+    if (!res.ok) {
+      throw new Error("Failed to add a person.");
     }
 
+    setAlertMessage("Successfully added a person.");
+    setShowAlert(true);
+    setCode("Success");
+  } catch (error) {
+    setAlertMessage("Oops! Something went wrong. Please try again.");
+    setShowAlert(true);
+    setCode("Error");
+     setIsLoading(false);
+  } finally {
     setIsLoading(false);
-  };
+  }
+};
 
   return (
     <form className="px-6">
@@ -378,7 +386,7 @@ export default function Addperson() {
         <div className="locations ">
           <h1 className="font-semibold text-xl">Location Information</h1>
           <div className="location_inputs mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-3 col-span-1">
               <label
                 htmlFor="region"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -401,7 +409,7 @@ export default function Addperson() {
                 />
               </div>
             </div>
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-3 col-span-1">
               <label
                 htmlFor="last_seen"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -423,8 +431,8 @@ export default function Addperson() {
                   className="block w-full px-2 rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-            </div>{" "}
-            <div className="col-span-3">
+            </div>
+            <div className="lg:col-span-3 col-span-1">
               <label
                 htmlFor="street-address"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -435,14 +443,18 @@ export default function Addperson() {
                 Provide the location last seen
               </p>
 
-              <MapModal setLocation={setLocation} />
-              {location && (
+              <MapModal
+                setLatitude={setLatitude}
+                setLongitude={setLongitude}
+                setName={setName}
+              />
+              {latitude && name && longitude && (
                 <div>
                   <h1 className="font-semibold">Location Details</h1>
                   <div className="text-gray-500">
-                    <p>Latitude: {location.lat}</p>
-                    <p>Longitude: {location.lng}</p>
-                    <p>Name: {location.address}</p>
+                    <p>Latitude: {latitude}</p>
+                    <p>Longitude: {longitude}</p>
+                    <p>Name: {name}</p>
                   </div>
                 </div>
               )}
@@ -457,7 +469,7 @@ export default function Addperson() {
           type="button"
           className="text-sm font-semibold leading-6 text-gray-900"
         >
-          Cancel
+          Reset
         </button>
         <button
           type="submit"
@@ -470,7 +482,11 @@ export default function Addperson() {
       </div>
       <div className="mt-6 flex items-center justify-end gap-x-6">
         {showAlert && (
-          <Alert onClose={() => setShowAlert(false)}>{alertMessage}</Alert>
+          <SuccessModal
+            msg={alertMessage}
+            code={code}
+            setShowAlert={setShowAlert}
+          ></SuccessModal>
         )}
       </div>
     </form>

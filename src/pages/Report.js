@@ -2,16 +2,15 @@ import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { Alert } from "@mui/material";
 import MapModal from "../components/MapModal";
+import SuccessModal from "../components/SuccessModal";
 
 export default function Addperson() {
   const [first_name, setfName] = useState("");
   const [middle_name, setmName] = useState("");
   const [last_name, setlame] = useState("");
-  const [nick_name, setnName] = useState("");
+  const [time_seen, setTime_seen] = useState(null);
   const [age, setAge] = useState("");
-  const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [hair_color, sethair_color] = useState("");
@@ -19,6 +18,9 @@ export default function Addperson() {
   const [last_seen, setlast_seen] = useState("");
   const [eye_color, seteye_color] = useState("");
   const [gender, setgender] = useState("");
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
+  const [name, setName] = useState("");
 
   const handleImageChange = async (e) => {
     const selectedImage = await e.target.files[0];
@@ -28,29 +30,30 @@ export default function Addperson() {
   formData.append("first_name", first_name);
   formData.append("middle_name", middle_name);
   formData.append("last_name", last_name);
-  formData.append("nick_name", nick_name);
   formData.append("county", county);
   formData.append("last_seen", last_seen);
   formData.append("eye_color", eye_color);
   formData.append("hair_color", hair_color);
   formData.append("age", age);
-  formData.append("location", location);
   formData.append("description", description);
   formData.append("image", image);
   formData.append("gender", gender);
-
+  formData.append("latitude", latitude);
+  formData.append("longitude", longitude);
+  formData.append("name", name);
+ formData.append("time_found",time_seen );
   let { AuthTokens } = useContext(AuthContext);
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const [code, setCode] = useState("");
   const HandleSubmit = async (e) => {
     e.preventDefault();
 
     setIsLoading(true);
 
-    let res = await fetch(`${process.env.REACT_APP_API_URL}/api/add-missing/`, {
+    let res = await fetch(`${process.env.REACT_APP_API_URL}/api/report-person/`, {
       method: "POST",
       headers: {
         Authorization: "Bearer " + String(AuthTokens.access),
@@ -61,13 +64,12 @@ export default function Addperson() {
     if (res.status === 201) {
       setAlertMessage("Successfully added a person.");
       setShowAlert(true);
-
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 5000);
+      setCode("Success");
     } else {
       setAlertMessage("Oops! Something went wrong. Please try again.");
       setShowAlert(true);
+      setIsLoading(false);
+      setCode("Error");
     }
 
     setIsLoading(false);
@@ -103,7 +105,6 @@ export default function Addperson() {
                   type="text"
                   name="first_name"
                   id="first-name"
-                  autoComplete="given-name"
                   className="block  px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -126,7 +127,6 @@ export default function Addperson() {
                   type="text"
                   name="middle_name"
                   id="middle-name"
-                  autoComplete="family-name"
                   className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -139,7 +139,7 @@ export default function Addperson() {
                 Last Name
               </label>
               <p className="mt-1 text-sm leading-6 text-gray-600">
-                Provide the legal last name or family name
+                Provide the legal last name or family name if known
               </p>
               <div className="mt-2">
                 <input
@@ -149,36 +149,12 @@ export default function Addperson() {
                   id="last_name"
                   name="last_name"
                   type="text"
-                  autoComplete="email"
-                  className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="nick_name"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Nick Name
-              </label>
-              <p className="mt-1 text-sm leading-6 text-gray-600">
-                Can be left blank (optional)
-              </p>
-              <div className="mt-2">
-                <input
-                  onChange={(e) => {
-                    setnName(e.target.value);
-                  }}
-                  type="text"
-                  name="nick_name"
-                  id="nick_name"
-                  autoComplete="family-name"
                   className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
 
-            <div className="sm:col-span-3 sm:col-start-1">
+            <div className="sm:col-span-3 ">
               <label
                 htmlFor="age"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -251,7 +227,7 @@ export default function Addperson() {
                 </div>
                 <div className="flex items-center gap-x-3">
                   <input
-                    value="Don't disclose"
+                    value="Unknown"
                     onChange={(e) => {
                       setgender(e.target.value);
                     }}
@@ -263,7 +239,7 @@ export default function Addperson() {
                     htmlFor="push-nothing"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Don't Disclose
+                    Unknown
                   </label>
                 </div>
               </div>
@@ -335,8 +311,8 @@ export default function Addperson() {
                 Description
               </label>
               <p className="mt-1 text-sm leading-6 text-gray-600">
-                Provide the full description of the person when you were last in
-                contact with them
+                Provide the full description of the person you were in contact
+                with
               </p>
               <div className="mt-2">
                 <textarea
@@ -378,7 +354,7 @@ export default function Addperson() {
         <div className="locations ">
           <h1 className="font-semibold text-xl">Location Information</h1>
           <div className="location_inputs mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-3 col-span-1">
               <label
                 htmlFor="region"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -386,7 +362,7 @@ export default function Addperson() {
                 County
               </label>
               <p className="mt-1 text-sm leading-6 text-gray-600">
-                Provide county of origin
+                Provide county where you saw the person
               </p>
               <div className="mt-2">
                 <input
@@ -401,12 +377,12 @@ export default function Addperson() {
                 />
               </div>
             </div>
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-3 col-span-1">
               <label
                 htmlFor="last_seen"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Date Last Seen
+                Date seen
               </label>{" "}
               <p className="mt-1 text-sm leading-6 text-gray-600">
                 Provide the date you were last in contact
@@ -423,30 +399,56 @@ export default function Addperson() {
                   className="block w-full px-2 rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-            </div>{" "}
-            <div className="col-span-3">
+            </div>
+            <div className="sm:col-span-3 col-span-1">
               <label
                 htmlFor="street-address"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Location Last Seen
+                Location Seen
               </label>
               <p className="mt-1 text-sm leading-6 text-gray-600">
                 Provide the location last seen
               </p>
 
-              <MapModal setLocation={setLocation} />
-              {location && (
+              <MapModal
+                setLatitude={setLatitude}
+                setLongitude={setLongitude}
+                setName={setName}
+              />
+              {latitude && name && longitude && (
                 <div>
                   <h1 className="font-semibold">Location Details</h1>
                   <div className="text-gray-500">
-                    <p>Latitude: {location.lat}</p>
-                    <p>Longitude: {location.lng}</p>
-                    <p>Name: {location.address}</p>
+                    <p>Latitude: {latitude}</p>
+                    <p>Longitude: {longitude}</p>
+                    <p>Name: {name}</p>
                   </div>
                 </div>
               )}
               <div className="mt-2"></div>
+            </div>
+            <div className="sm:col-span-3 col-span-1">
+              <label
+                htmlFor="time_seen"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Time seen
+              </label>{" "}
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Provide the time you saw the person
+              </p>
+              <div className="mt-2">
+                <input
+                  onChange={(e) => {
+                    setTime_seen(e.target.value);
+                  }}
+                  type="time"
+                  name="time_seen"
+                  id="time_seen"
+                  className="block w-full px-2 rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -457,7 +459,7 @@ export default function Addperson() {
           type="button"
           className="text-sm font-semibold leading-6 text-gray-900"
         >
-          Cancel
+          Reset
         </button>
         <button
           type="submit"
@@ -470,7 +472,11 @@ export default function Addperson() {
       </div>
       <div className="mt-6 flex items-center justify-end gap-x-6">
         {showAlert && (
-          <Alert onClose={() => setShowAlert(false)}>{alertMessage}</Alert>
+          <SuccessModal
+            msg={alertMessage}
+            code={code}
+            setShowAlert={setShowAlert}
+          ></SuccessModal>
         )}
       </div>
     </form>

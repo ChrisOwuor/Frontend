@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   GoogleMap,
   useJsApiLoader,
   MarkerF,
   InfoWindowF,
 } from "@react-google-maps/api";
+import AuthContext from "../context/AuthContext";
 
 const containerStyle = {
   width: "100%",
@@ -14,51 +15,9 @@ const containerStyle = {
 const options = {
   mapTypeControl: false,
   streetViewControl: false,
-  disableDefaultUI: true,
 };
 
-const markers = [
-  {
-    name: "Michael Wiston",
-    status: "Found",
-    location: {
-      lat: -1.2065884529293276,
-      lng: 36.782730427176205,
-    },
-  },
-  {
-    name: "Antony Lusili",
-    status: "Found",
-    location: {
-      lat: -1.2309777603620737,
-      lng: 36.70371240245916,
-    },
-  },
-  {
-    name: "David Asiku",
-    status: "Missing",
-    location: {
-      lat: -1.235219356232188,
-      lng: 36.67374919172594,
-    },
-  },
-  {
-    name: "Steve Wamalwa",
-    status: "Missing",
-    location: {
-      lat: -1.246088414726342,
-      lng: 36.79254138940811,
-    },
-  },
-  {
-    name: "Mary Auma",
-    status: "missing",
-    location: {
-      lat: -1.2800207946839268,
-      lng: 36.87315038111518,
-    },
-  },
-];
+
 function MapView({ setLocation, handleClose }) {
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
@@ -82,9 +41,38 @@ function MapView({ setLocation, handleClose }) {
     setLocation({ lat, lng, address });
     handleClose();
   };
+
+  let [markers, setMarkers] = useState([]);
+  let { AuthTokens, logoutUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    let getNotes = async () => {
+      let response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/locations/all`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + String(AuthTokens.access),
+          },
+        }
+      );
+      let data = await response.json();
+
+      if (response.status === 200) {
+        setMarkers(data.persons);
+      } else if (response.statusText === "Unauthorized") {
+        logoutUser();
+      }
+    };
+
+    getNotes();
+  }, [AuthTokens.access, logoutUser]);
   return (
     <div className="w-full h-full mx-auto  ">
-      <h1 className="font-semibold">Missing And found person distributon</h1>
+      <h1 className="font-semibold text-xl text-center text-gray-600">
+        Missing And found person distributon
+      </h1>
       {isLoaded ? (
         <div className="relative">
           {" "}
@@ -96,9 +84,9 @@ function MapView({ setLocation, handleClose }) {
           >
             <>
               {" "}
-              {markers.map((marker) => {
+              {markers.map((marker, index) => {
                 return (
-                  <div key={marker.name}>
+                  <div key={index} >
                     <MarkerF
                       position={marker.location}
                       onClick={() => {

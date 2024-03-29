@@ -16,7 +16,7 @@ const options = {
   mapTypeControl: false,
 };
 
-function Map({ setLocation, handleClose }) {
+function Map({ handleClose, setName, setLongitude, setLatitude }) {
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [zoom, setZoom] = useState(8);
@@ -49,12 +49,13 @@ function Map({ setLocation, handleClose }) {
 
   const HandleLocationSelection = (e) => {
     e.preventDefault();
-
-    setLocation({ lat, lng, address });
+    setLatitude(lat);
+    setLongitude(lng);
+    setName(address);
     handleClose();
   };
   return (
-    <div className="w-full h-full mx-auto  ">
+    <div className="w-full h-full mx-auto  relative ">
       {isLoaded ? (
         <div className="relative">
           {" "}
@@ -64,11 +65,11 @@ function Map({ setLocation, handleClose }) {
             zoom={zoom}
             options={options}
           >
-            
             <MarkerF
               position={{ lat: lat, lng: lng }}
               onClick={(e) => handleMarkerClick(e)}
             />
+
             {selectedMarker && (
               <InfoWindowF position={selectedMarker.location}>
                 <div className="bg-white">
