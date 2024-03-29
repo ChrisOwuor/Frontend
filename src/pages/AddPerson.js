@@ -434,7 +434,6 @@ export default function Addperson() {
               <p className="mt-1 text-sm leading-6 text-gray-600">
                 Provide the location last seen
               </p>
-<<<<<<< HEAD
 
               <MapModal setLocation={setLocation} />
               {location && (
@@ -447,10 +446,8 @@ export default function Addperson() {
                   </div>
                 </div>
               )}
-=======
               <MapModal />
 
->>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
               <div className="mt-2"></div>
             </div>
           </div>
