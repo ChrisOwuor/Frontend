@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { Alert } from "@mui/material";
+<<<<<<< HEAD
 import MapModal from "../components/MapModal";
 
 export default function Addperson() {
@@ -10,6 +11,13 @@ export default function Addperson() {
   const [middle_name, setmName] = useState("");
   const [last_name, setlame] = useState("");
   const [nick_name, setnName] = useState("");
+=======
+
+export default function Report() {
+  const [first_name, setfName] = useState("");
+  const [middle_name, setmName] = useState("");
+  const [last_name, setlame] = useState("");
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
   const [age, setAge] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
@@ -28,7 +36,10 @@ export default function Addperson() {
   formData.append("first_name", first_name);
   formData.append("middle_name", middle_name);
   formData.append("last_name", last_name);
+<<<<<<< HEAD
   formData.append("nick_name", nick_name);
+=======
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
   formData.append("county", county);
   formData.append("last_seen", last_seen);
   formData.append("eye_color", eye_color);
@@ -50,6 +61,7 @@ export default function Addperson() {
 
     setIsLoading(true);
 
+<<<<<<< HEAD
     let res = await fetch(`${process.env.REACT_APP_API_URL}/api/add-missing/`, {
       method: "POST",
       headers: {
@@ -57,6 +69,18 @@ export default function Addperson() {
       },
       body: formData,
     });
+=======
+    let res = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/report-person/`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + String(AuthTokens.access),
+        },
+        body: formData,
+      }
+    );
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
 
     if (res.status === 201) {
       setAlertMessage("Successfully added a person.");
@@ -75,9 +99,16 @@ export default function Addperson() {
 
   return (
     <form className="px-6">
+<<<<<<< HEAD
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-xl font-semibold leading-7 text-gray-900 ">
+=======
+      
+      <div className="space-y-12">
+        <div className="border-b border-gray-900/10 pb-12">
+          <h2 className="text-base font-semibold leading-7 text-gray-900">
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
             Personal Information
           </h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
@@ -104,7 +135,11 @@ export default function Addperson() {
                   name="first_name"
                   id="first-name"
                   autoComplete="given-name"
+<<<<<<< HEAD
                   className="block  px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+=======
+                  className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
                 />
               </div>
             </div>
@@ -127,7 +162,11 @@ export default function Addperson() {
                   name="middle_name"
                   id="middle-name"
                   autoComplete="family-name"
+<<<<<<< HEAD
                   className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+=======
+                  className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
                 />
               </div>
             </div>
@@ -149,6 +188,7 @@ export default function Addperson() {
                   id="last_name"
                   name="last_name"
                   type="text"
+<<<<<<< HEAD
                   autoComplete="email"
                   className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -163,10 +203,27 @@ export default function Addperson() {
               </label>
               <p className="mt-1 text-sm leading-6 text-gray-600">
                 Can be left blank (optional)
+=======
+                  autoComplete="name"
+                  className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="col-span-full">
+              <label
+                htmlFor="street-address"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Location Seen
+              </label>
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Provide the location seen
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
               </p>
               <div className="mt-2">
                 <input
                   onChange={(e) => {
+<<<<<<< HEAD
                     setnName(e.target.value);
                   }}
                   type="text"
@@ -178,6 +235,18 @@ export default function Addperson() {
               </div>
             </div>
 
+=======
+                    setLocation(e.target.value);
+                  }}
+                  type="text"
+                  name="location"
+                  id="street-address"
+                  autoComplete="street-address"
+                  className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
             <div className="sm:col-span-3 sm:col-start-1">
               <label
                 htmlFor="age"
@@ -186,7 +255,11 @@ export default function Addperson() {
                 Age
               </label>
               <p className="mt-1 text-sm leading-6 text-gray-600">
+<<<<<<< HEAD
                 Provide Age at the time you were last in contact
+=======
+                Provide Age at the time you were in contact
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
               </p>
               <div className="mt-2">
                 <input
@@ -197,13 +270,159 @@ export default function Addperson() {
                   name="age"
                   id="age"
                   autoComplete="age"
+<<<<<<< HEAD
                   className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+=======
+                  className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="sm:col-span-3">
+              <label
+                htmlFor="region"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                County
+              </label>
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Provide county you saw the person
+              </p>
+              <div className="mt-2">
+                <input
+                  onChange={(e) => {
+                    setcounty(e.target.value);
+                  }}
+                  type="text"
+                  name="county"
+                  id="region"
+                  autoComplete="address-level1"
+                  className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="sm:col-span-full">
+              <label
+                htmlFor="last_seen"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Date Seen
+              </label>{" "}
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Provide the date you were in contact
+              </p>
+              <div className="mt-2">
+                <input
+                  onChange={(e) => {
+                    setlast_seen(e.target.value);
+                  }}
+                  type="date"
+                  name="last_seen"
+                  id="last_seen"
+                  autoComplete="address-level1"
+                  className="block px-2 w-full rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>{" "}
+            <div className="sm:col-span-3">
+              <label
+                htmlFor="eye_color"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Eye Color
+              </label>
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Provide the eye color
+              </p>
+              <div className="mt-2">
+                <select
+                  className="flex px-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 sm:max-w-md w-full"
+                  value={eye_color}
+                  onChange={(e) => {
+                    seteye_color(e.target.value);
+                  }}
+                >
+                  <option value="none">-- Choose eye color --</option>
+                  <option value="red">Red</option>
+                  <option value="gray">Gray</option>
+                  <option value="brown">Brown</option>
+                </select>
+              </div>
+            </div>
+            <div className="sm:col-span-3">
+              <label
+                htmlFor="hair_color"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Hair Color{" "}
+              </label>
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Select the hair color{" "}
+              </p>
+              <div className="mt-2">
+                <select
+                  className="flex px-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 sm:max-w-md w-full"
+                  value={hair_color}
+                  onChange={(e) => {
+                    sethair_color(e.target.value);
+                  }}
+                >
+                  <option value="none">-- Choose hair color --</option>
+                  <option value="brown">Brown</option>
+                  <option value="Black">Black</option>
+                  <option value="others">Others</option>
+                </select>
+              </div>
+            </div>
+            <div className="sm:col-span-full">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Description
+              </label>
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Provide the full description of the person during the contact
+                with them
+              </p>
+              <div className="mt-2">
+                <textarea
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
+                  id="description"
+                  name="description"
+                  rows="3"
+                  className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                ></textarea>
+              </div>
+            </div>
+            <div className="col-span-full">
+              <label
+                htmlFor="photo"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                <span>Photo</span>{" "}
+                <UserCircleIcon
+                  className="h-12 w-12 text-gray-300"
+                  aria-hidden="true"
+                />
+              </label>
+              <div className="mt-2 flex items-center gap-x-3">
+                {" "}
+                <input
+                  type="file"
+                  id="photo"
+                  name="image"
+                  onChange={handleImageChange}
+                  className=" cursor-pointer"
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
                 />
               </div>
             </div>
           </div>
         </div>
 
+<<<<<<< HEAD
         <div className="border-b-2  pb-12">
           <div className="mt-10 space-y-10">
             <fieldset>
@@ -213,6 +432,14 @@ export default function Addperson() {
               <p className="mt-1 text-sm leading-6 text-gray-600">
                 Provide accurate infromation on the gender of the missing person
               </p>
+=======
+        <div className="border-b border-gray-900/10 pb-12">
+          <div className="mt-10 space-y-10">
+            <fieldset>
+              <legend className="text-sm font-semibold leading-6 text-gray-900">
+                Choose Gender{" "}
+              </legend>
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
 
               <div className="mt-6 space-y-6">
                 <div className="flex items-center gap-x-3">
@@ -270,6 +497,7 @@ export default function Addperson() {
             </fieldset>
           </div>
         </div>
+<<<<<<< HEAD
         <div className="physical border-b-2 pb-4 ">
           <h1 className="text-xl font-semibold"> Physical information</h1>
           <p className="mt-1 text-sm leading-6 text-gray-600">
@@ -450,6 +678,8 @@ export default function Addperson() {
             </div>
           </div>
         </div>
+=======
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
@@ -465,7 +695,11 @@ export default function Addperson() {
           onClick={(e) => HandleSubmit(e)}
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
+<<<<<<< HEAD
           {isLoading ? "Submitting..." : "Submit"}
+=======
+          {isLoading ? "Submitting..." : "Report"}
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
         </button>
       </div>
       <div className="mt-6 flex items-center justify-end gap-x-6">

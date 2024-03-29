@@ -27,7 +27,11 @@ export default function Seen() {
       }
     };
     getNotes();
+<<<<<<< HEAD
   }, [AuthTokens.access, logoutUser]);
+=======
+  }, [AuthTokens.access, logoutUser, notes]);
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
 
   return (
     <ul className="divide-y divide-gray-100 w-full h-screen">

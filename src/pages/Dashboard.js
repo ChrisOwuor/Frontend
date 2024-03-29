@@ -5,7 +5,10 @@ import AssessmentRoundedIcon from "@mui/icons-material/AssessmentRounded";
 import CoPresentRoundedIcon from "@mui/icons-material/CoPresentRounded";
 import PersonPinCircleRoundedIcon from "@mui/icons-material/PersonPinCircleRounded";
 import TextSnippetRoundedIcon from "@mui/icons-material/TextSnippetRounded";
+<<<<<<< HEAD
 import { MapIcon } from "@heroicons/react/24/solid";
+=======
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
 
 const subCategories = [
   {
@@ -20,6 +23,7 @@ const subCategories = [
   },
   {
     name: "Statistics",
+<<<<<<< HEAD
     href: "/dashboard/statistics",
     icon: <AssessmentRoundedIcon />,
   },
@@ -29,6 +33,12 @@ const subCategories = [
     href: "/dashboard/map/view",
     icon: <MapIcon height={25} />,
   },
+=======
+    href: "/dashboard/seen",
+    icon: <AssessmentRoundedIcon />,
+  },
+  { name: "Cases", href: "/dashboard/seen", icon: <TextSnippetRoundedIcon /> },
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
 ];
 
 export default function Example() {
@@ -45,10 +55,14 @@ export default function Example() {
             </div>
             <ul className="space-y-6  border-gray-200 pb-6 text-sm font-medium text-gray-900 ">
               {subCategories.map((category) => (
+<<<<<<< HEAD
                 <li
                   key={category.name}
                   className="flex bg-gray-100 rounded-lg pl-2"
                 >
+=======
+                <li key={category.name} className="flex ">
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
                   {category.icon}
                   <NavLink
                     to={category.href}
@@ -62,7 +76,11 @@ export default function Example() {
             </ul>
           </div>
           <div className="lg:col-span-3  overflow-y-scroll mb-4 px-2 ">
+<<<<<<< HEAD
             <Outlet />
+=======
+            <Outlet></Outlet>
+>>>>>>> a2cc8bd64b3e319406d53836dfb673a17c7a9cea
           </div>
         </div>
       </main>
