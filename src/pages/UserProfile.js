@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import Alerts from "../components/Alert";
 export default function UserProfile() {
   const [details, setdetails] = useState(null);
   let { AuthTokens } = useContext(AuthContext);
@@ -29,6 +30,9 @@ export default function UserProfile() {
   const [email, setEmail] = useState("");
   const [user_loading, setUser_loading] = useState(false);
   const [email_loading, setEmail_loading] = useState(false);
+    const [pass_loading, setPass_loading] = useState(false);
+
+  
 
   const updateUserName = (e) => {
     e.preventDefault();
@@ -55,7 +59,7 @@ export default function UserProfile() {
       })
       .then((data) => {
         setUser_loading(false);
-        console.log(data);
+        alert(data.msg)
       })
       .catch((err) => console.log(err));
   };
@@ -84,7 +88,7 @@ export default function UserProfile() {
       })
       .then((data) => {
         setEmail_loading(false);
-        console.log(data);
+       alert(data.msg)
       })
       .catch((err) => console.log(err));
   };
@@ -96,7 +100,7 @@ export default function UserProfile() {
       password: password,
       old_password: old_password,
     };
-    setEmail_loading(true);
+    setPass_loading(true);
 
     fetch(
       `${process.env.REACT_APP_API_URL}/auth/profile/user/update/password/`,
@@ -113,15 +117,22 @@ export default function UserProfile() {
         if (res.status === 200) {
           return res.json();
         } else {
-          setEmail_loading(false);
-          throw new Error("Could not fetch");
+          setPass_loading(false);
+          return res.json().then((data) => {
+            throw new Error(data.error);
+          });
         }
       })
       .then((data) => {
-        setEmail_loading(false);
-        console.log(data);
+        setPass_loading(false);
+        if (data) {
+          alert(data.message);
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        setPass_loading(false);
+        alert(error.message);
+      });
   };
 
   return (
@@ -331,40 +342,41 @@ export default function UserProfile() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <hr />
-                      {details && details.codes.length > 0 ? (
-                        <td class="px-3 py-4  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          <div className="flex w-0 flex-1 items-center">
-                            <PaperClipIcon
-                              className="h-5 w-5 flex-shrink-0 text-gray-400"
-                              aria-hidden="true"
-                            />
-                            <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                              <span className="truncate font-medium">
-                                {details.codes[0].first_name}
-                              </span>
-                              <span className="flex-shrink-0 text-gray-400 ">
-                                {details.codes[0].trackCode}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="ml-4 flex-shrink-0">
-                            <a
-                              href="/"
-                              className="font-medium text-indigo-600 hover:text-indigo-500"
+                    <tr class="bg-white  dark:bg-gray-800 dark:border-gray-700">
+                      <ul className="divide-y divide-gray-100 rounded-md border border-gray-200">
+                        {details &&
+                        details.codes &&
+                        details.codes.length > 0 ? (
+                          details &&
+                          details.codes.map((det, index) => (
+                            <li
+                              key={index}
+                              className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6"
                             >
-                              View Progress
-                            </a>
-                          </div>
-                        </td>
-                      ) : (
-                        <td className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                          <p className="truncate font-medium">
-                            You have not added a missing person yet
-                          </p>
-                        </td>
-                      )}
+                              <div className="flex w-0 flex-1 items-center">
+                                <PaperClipIcon
+                                  className="h-5 w-5 flex-shrink-0 text-gray-400"
+                                  aria-hidden="true"
+                                />
+                                <div className="ml-4 flex min-w-0 flex-1 gap-2">
+                                  <span className="truncate font-medium">
+                                    {det.first_name}
+                                  </span>
+                                  <span className="flex-shrink-0 text-gray-400 ">
+                                    {det.trackCode}
+                                  </span>
+                                </div>
+                              </div>
+                            </li>
+                          ))
+                        ) : (
+                          <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                            <p className="truncate font-medium">
+                              You have not added a missing person yet
+                            </p>
+                          </li>
+                        )}
+                      </ul>
                     </tr>
                   </tbody>
                 </table>

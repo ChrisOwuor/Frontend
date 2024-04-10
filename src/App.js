@@ -22,6 +22,7 @@ import UserProfile from "./pages/UserProfile";
 import MapView from "./components/MapView";
 import Statistics from "./components/Statistics";
 import Case from "./components/Case";
+import CaseDetail from "./components/CaseDetail";
 function App() {
   return (
     <div className="App);">
@@ -39,12 +40,13 @@ function App() {
             </Route>
             <Route path="/login" element={<Login />} />
             <Route element={<PrivateRoutes />}>
-              <Route path="/dashboard" element={<Dashboard /> }>
+              <Route path="/dashboard" element={<Dashboard />}>
                 <Route path="/dashboard/missing" element={<Missing />} />
                 <Route path="/dashboard/seen" element={<Seen />} />
                 <Route path="/dashboard/statistics" element={<Statistics />} />
                 <Route path="/dashboard/map/view" element={<MapView />} />
                 <Route path="/dashboard/cases/" element={<Case />} />
+                <Route path="/dashboard/cases/:id" element={<CaseDetail />} />
               </Route>
             </Route>
             <Route path="/signup" element={<Signup />} />

@@ -17,11 +17,15 @@ const style = {
 };
 
 export default function ResetPassModal() {
+  const [otp, setOtp] = useState("");
+  const [subOtp, setSubOtp] = useState("");
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [email, setEmail] = useState("");
   const [emailData, setEmailData] = useState();
+  // emaildata contain user u_id code
   const [emailError, setEmailError] = useState();
   const [emailOpen, setEmailOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
@@ -31,8 +35,10 @@ export default function ResetPassModal() {
   const [newPass, setNewPass] = useState("");
   const [passRes, setPassRes] = useState("");
   const [passErr, setPassErr] = useState("");
+  const [mailLoading, setMailLoading] = useState(false);
 
   const checkEmail = (e) => {
+    setMailLoading(true);
     e.preventDefault();
     const body = {
       email: email,
@@ -53,21 +59,21 @@ export default function ResetPassModal() {
         }
       })
       .then((data) => {
+        setMailLoading(false);
         setEmailData(data);
         setEmailOpen(true);
-        setTimeout(() => {
-          setEmailOpen(false);
-        }, 2000);
+        setEmailOpen(false);
       })
       .catch((err) => {
+        setMailLoading(false);
+
         setEmailError(err.message);
         setErrorOpen(true);
-        setTimeout(() => {
-          setErrorOpen(false);
-        }, 2000);
+        setErrorOpen(false);
       });
   };
-  const getOtp = async (data) => {
+  //should be verify otp
+  const verifyOtp = async (data) => {
     const body = {
       code: data,
     };
@@ -82,6 +88,8 @@ export default function ResetPassModal() {
       }
     );
     if (res.status === 200) {
+      setOtp("");
+      setSubOtp(otp);
       let res_data = await res.json();
       setOtpRes(res_data.msg);
       setOtpUser(res_data.user);
@@ -96,12 +104,12 @@ export default function ResetPassModal() {
     e.preventDefault();
     const body = {
       password: newPass,
-      code: emailData.code,
+      code: subOtp,
     };
     let res = await fetch(
       `${process.env.REACT_APP_API_URL}/auth/profile/change/passkey/${user}/`,
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -173,13 +181,20 @@ export default function ResetPassModal() {
                     className="text-gray-500 w-max p-3 rounded-md border outline-none "
                   />
                   <button className="w-max mt-3 px-5 py-3 rounded-md text-white bg-indigo-600  outline-none hover:bg-indigo-500   sm:mt-0 sm:ml-3 sm:w-auto">
-                    Get code
+                    {mailLoading ? "Requesting..." : "Get code"}
                   </button>
                 </form>
               </div>
             </>
           )}
-          {emailData && <Otp getOtp={getOtp} otpRes={otpRes} />}
+          {emailData && (
+            <Otp
+              verifyOtp={verifyOtp}
+              otpRes={otpRes}
+              otp={otp}
+              setOtp={setOtp}
+            />
+          )}
           {otpRes && (
             <div className="mt-6 flex flex-col items-center">
               <p className="text-gray-600 text-center ">{otpRes}</p>

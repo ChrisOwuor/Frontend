@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import OtpInput from "react-otp-input";
 
-export default function Otp({ getOtp, otpRes }) {
-  const [otp, setOtp] = useState("");
-  if (otp.length === 4) {
-    getOtp(otp);
-    setOtp("")
+export default function Otp({ verifyOtp, otpRes, otp, setOtp }) {
+  if (otp && otp.length === 4) {
+    verifyOtp(otp);
   }
 
   return (

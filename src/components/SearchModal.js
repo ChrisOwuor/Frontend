@@ -1,7 +1,10 @@
-import * as React from "react";
+import React, { useState, useContext } from "react";
 import Box from "@mui/material/Box";
+import AuthContext from "../context/AuthContext";
 
 import Modal from "@mui/material/Modal";
+import Spinnner from "./Spinnner";
+import { Link } from "react-router-dom";
 const style = {
   position: "absolute",
   top: "50%",
@@ -13,14 +16,53 @@ const style = {
 };
 
 export default function BasicModal() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setNotes(null);
+  };
+  let [notes, setNotes] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
+
+  let { AuthTokens, logoutUser } = useContext(AuthContext);
+  const HandleOnChange = (e) => {
+    setSearchVal(e.target.value);
+  };
+  const HandleSearch = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    let response = await fetch(
+      `${process.env.REACT_APP_API_URL}/app/stats/search/case/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(AuthTokens.access),
+        },
+        body: JSON.stringify({ searchVal }),
+      }
+    );
+
+    let data = await response.json();
+
+    if (response.status === 200) {
+      setNotes(data);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    } else if (response.statusText === "Unauthorized") {
+      setLoading(false);
+      logoutUser();
+    }
+  };
 
   return (
     <div>
-          <button
-              onClick={handleOpen}
+      <button
+        onClick={handleOpen}
         type="submit"
         class="p-2 ms-2 text-sm font-medium text-white "
       >
@@ -40,8 +82,8 @@ export default function BasicModal() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className="w-2/5 h-4/5 rounded-lg">
-          <form class="max-w-md mx-auto">
+        <Box sx={style} className="lg:w-2/5 w-4/5 h-4/5 rounded-lg">
+          <form class="max-w-md mx-auto" onSubmit={HandleSearch}>
             <label
               for="default-search"
               class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -67,6 +109,7 @@ export default function BasicModal() {
                 </svg>
               </div>
               <input
+                onChange={HandleOnChange}
                 type="search"
                 id="default-search"
                 class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
@@ -81,6 +124,38 @@ export default function BasicModal() {
               </button>
             </div>
           </form>
+          <div className="results max-w-md mx-auto p-2 bg-slate-200 mt-3 rounded-lg">
+            {loading ? (
+              <Spinnner />
+            ) : (
+              <>
+                {notes ? (
+                  <Link
+                    to={`/dashboard/cases/${notes.case_number}`}
+                    onClick={handleClose}
+                  >
+                    <div className="cursor-pointer">
+                      <p>
+                        <span className=" font-semibold">Case Number</span> :{" "}
+                        {notes.case_number}
+                      </p>
+                      <p>
+                        {" "}
+                        <span className=" font-semibold">Type :</span>{" "}
+                        {notes.type}
+                      </p>
+                      <p>
+                        <span className=" font-semibold">Status :</span>{" "}
+                        {notes.status}
+                      </p>
+                    </div>
+                  </Link>
+                ) : (
+                  <p>Results will show here</p>
+                )}
+              </>
+            )}
+          </div>
         </Box>
       </Modal>
     </div>
