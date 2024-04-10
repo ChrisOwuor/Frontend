@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { PaperClipIcon } from "@heroicons/react/20/solid";
 
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { formatDate, formatTime } from "../utils/FuncStore";
 export default function Single() {
   let { AuthTokens } = useContext(AuthContext);
 
@@ -18,208 +20,146 @@ export default function Single() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setdetails(data);
+        setdetails(data[0]);
       });
   }, [AuthTokens.access, ids]);
-  details && console.log(details);
-  const dateString = details && details[0].last_seen;
-  const created = details && details[0].created_at;
-
-  const isoDate = new Date(dateString);
-  const Created_at = new Date(created);
-
-  const formattedDate = isoDate.toLocaleDateString();
-  const formattedTime = isoDate.toLocaleTimeString();
-
-  const formattedCDate = Created_at.toLocaleDateString();
-  const formattedCTime = Created_at.toLocaleTimeString();
 
   return (
-    <div className=" bg-red-300 h-[calc(100vh-52px)] overflow-y-hidden overflow-x-hidden">
-      <div className="md:flex  no-wrap md:-mx-2 ">
-        <div className="w-full md:w-3/12 md:mx-2">
-          <div className="bg-white p-3 border-t-4 border-green-400">
-            <div className="image overflow-hidden rounded-md">
+    <div className="w-full px-6 py-6 mx-auto drop-zone loopple-min-height-78vh text-slate-500">
+      {/* header */}
+      <div
+        className="relative flex flex-col flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-blur rounded-2xl bg-slate-100 bg-clip-border mb-4 draggable"
+        draggable="true"
+      >
+        <div className="flex flex-wrap -mx-3">
+          <div className="flex-none w-auto max-w-full px-3">
+            <div className="text-base ease-soft-in-out h-32 w-32 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
               <img
-                className="h-auto w-full mx-auto"
-                src={`${process.env.REACT_APP_API_URL}${
-                  details && details[0].image
+                src={`${
+                  details && process.env.REACT_APP_API_URL + details.image
                 }`}
-                alt=""
+                alt="profile_image"
+                className="w-full h-full shadow-soft-sm rounded-xl"
               />
             </div>
-            <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
-              {details &&
-                details[0].first_name +
-                  " " +
-                  details[0].middle_name +
-                  " " +
-                  details[0].last_name}
-            </h1>
-
-            <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
-              <li className="flex items-center py-3">
-                <span>Status</span>
-                <span className="ml-auto">
-                  <span className="bg-green-500 py-1 px-2 rounded text-white text-sm">
-                    Missing
-                  </span>
-                </span>
-              </li>
-              <li className="flex items-center py-3">
-                <span> Date Last Seen</span>
-                <span className="ml-auto">{formattedDate}</span>
-              </li>
-              <li className="flex items-center py-3">
-                <span> Time Last Seen</span>
-                <span className="ml-auto">{formattedTime}</span>
-              </li>
-              <li className="flex items-center py-3">
-                <span>Last Location</span>
-                <span className="ml-auto">
-                  {details && details[0].location}
-                </span>
-              </li>
-              <li className="flex items-center py-3">
-                <span>Posted By</span>
-                <span className="ml-auto">
-                  {details && details[0].created_by}
-                </span>
-              </li>
-              <li className="flex items-center py-3">
-                <span>Posted On</span>
-                <span className="ml-auto">{formattedCDate}</span>
-              </li>
-              <li className="flex items-center py-3">
-                <span>Posted At</span>
-                <span className="ml-auto">{formattedCTime}</span>
-              </li>
-            </ul>
           </div>
-          <div className="my-4"></div>
+          <div className="flex-none w-auto max-w-full px-3 my-auto">
+            <div className="h-full space-y-2">
+              <h1>
+                <strong className="text-slate-700 text-xl ">Status :</strong>{" "}
+                <span className=" py-[3px] px-2 rounded-lg text-xs font-semibold bg-red-400 text-white">
+                  Missing
+                </span>
+              </h1>
+              <h5 className="mb-1">
+                <strong className="text-slate-700"> Full name :</strong>{" "}
+                {details &&
+                  details.first_name +
+                    " " +
+                    details.middle_name +
+                    " " +
+                    details.last_name}
+              </h5>
+              <h1>
+                <strong className="text-slate-700">Gender :</strong>{" "}
+                {details && details.gender}{" "}
+              </h1>
+              <h1>
+                <strong className="text-slate-700">Age :</strong>{" "}
+                {details && details.age}{" "}
+              </h1>
+            </div>
+          </div>
+          <div className="w-full max-w-full px-3 mx-auto mt-4 sm:my-auto sm:mr-0 md:w-1/2 md:flex-none lg:w-4/12"></div>
         </div>
-        <div className="w-full md:w-9/12 mx-2 h-64 ">
-          <div className="bg-white p-3 shadow-sm rounded-sm">
-            <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-              <span clas="text-green-500">
-                <svg
-                  className="h-5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-              </span>
-              <span className="tracking-wide">Demographics</span>
+      </div>
+
+      <div className="w-full pb-6 mx-auto removable">
+        <div className="flex flex-wrap -mx-3 drop-zone">
+          {/* profile information */}
+          <div
+            className="w-full max-w-full px-3 lg-max:mt-6  mb-4 grid lg:grid-cols-2 gap-2"
+            draggable="true"
+          >
+            <div className="col-span-1 bg-slate-100 p-4">
+              <div className="relative flex flex-col h-max min-w-0 break-words  border-0 shadow-soft-xl rounded-2xl bg-clip-border">
+                <div className="p-4 pb-0 mb-0  border-b-0 rounded-t-2xl">
+                  <div className="flex flex-wrap -mx-3">
+                    <div className="flex items-center w-full max-w-full shrink-0 md:w-8/12 md:flex-none">
+                      <h6 className="mb-0"> Profile Information</h6>
+                    </div>
+                  </div>
+                </div>
+                <hr className="h-px my-4 bg-transparent bbg-gradient-to-r from-transparent via-black/40 to-transparent" />
+
+                <div className="flex-auto ">
+                  <ul className="flex flex-col pl-0 mb-0 rounded-lg">
+                    <li className="relative block px-4 py-2 pt-0 pl-0 leading-normal  border-0 rounded-t-lg text-sm text-inherit">
+                      <strong className="text-slate-700">Hair Color</strong>{" "}
+                      &nbsp; {details && details.hair_color}
+                    </li>
+
+                    <li className="relative block px-4 py-2 pl-0 leading-normal  border-0 border-t-0 text-sm text-inherit">
+                      <strong className="text-slate-700">Eye Color</strong>{" "}
+                      &nbsp;
+                      {details && details.eye_color}{" "}
+                    </li>
+                    <li className="relative block px-4 py-2 pl-0 leading-normal  border-0 border-t-0 text-sm text-inherit">
+                      <strong className="text-slate-700">Description</strong>{" "}
+                      &nbsp;
+                      {details && details.description}{" "}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <div className="text-gray-700">
-              <div className="grid md:grid-cols-1 text-sm ">
-                <div className="grid grid-cols-2 my-2">
-                  <div className="px-1 py-2 font-semibold">Gender</div>
-                  <div className="px-1 py-2 bg-gray-100 rounded-md w-1/4 text-center">
-                    {details && details[0].gender}
+            {/*location info */}
+            <div className="col-span-1 rounded-lg bg-slate-100 p-4">
+              <div className="relative flex flex-col h-max min-w-0 break-words border-0 shadow-soft-xl rounded-2xl bg-clip-border">
+                <div className="p-4 pb-0 mb-0 border-b-0 rounded-t-2xl">
+                  <div className="flex flex-wrap -mx-3">
+                    <div className="flex items-center w-full max-w-full shrink-0 md:w-8/12 md:flex-none">
+                      <h6 className="mb-0"> Location and Time Information</h6>
+                    </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 my-2">
-                  <div className="px-1 py-2 font-semibold ">Age</div>
-                  <div className="px-1 py-2 bg-gray-100 rounded-md w-1/4 text-center">
-                    {details && details[0].age}{" "}
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 my-2">
-                  <div className="px-1 py-2 font-semibold  ">
-                    County Of Origin
-                  </div>
-                  <div className="px-1 py-2 bg-gray-100 rounded-md w-1/4 text-center">
-                    {details && details[0].county}
-                  </div>
+                <hr className="h-px my-4 bg-transparent bbg-gradient-to-r from-transparent via-black/40 to-transparent" />
+
+                <div className="flex-auto ">
+                  <ul className="flex flex-col pl-0 mb-0 rounded-lg">
+                    <li className="relative block px-4 py-2 pt-0 pl-0 leading-normal border-0 rounded-t-lg text-sm text-inherit">
+                      <strong className="text-slate-700">
+                        Location Last seen
+                      </strong>{" "}
+                      &nbsp; {details && details.name_}
+                    </li>
+                    <li className="relative block px-4 py-2 pl-0 leading-normal border-0 border-t-0 text-sm text-inherit">
+                      <strong className="text-slate-700">
+                        County Last seen
+                      </strong>{" "}
+                      &nbsp;
+                      {details && details.county_}{" "}
+                    </li>
+                    <li className="relative block px-4 py-2 pl-0 leading-normal border-0 border-t-0 text-sm text-inherit">
+                      <strong className="text-slate-700">Time Last Seen</strong>
+                      &nbsp;
+                      {details && formatTime(details.created_at)}
+                    </li>{" "}
+                    <li className="relative block px-4 py-2 pl-0 leading-normal border-0 border-t-0 text-sm text-inherit">
+                      <strong className="text-slate-700">Reported At </strong>
+                      &nbsp;
+                      {details && formatDate(details.created_at)}{" "}
+                    </li>
+                    <li className="relative block px-4 py-2 pl-0 leading-normal border-0 border-t-0 text-sm text-inherit">
+                      <strong className="text-slate-700">Reported By </strong>
+                      &nbsp;
+                      {details && details.created_by}{" "}
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
-          <div className="bg-white p-3 shadow-sm rounded-sm">
-            <div className="grid grid-cols-2">
-              <div>
-                <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                  <span clas="text-green-500">
-                    <svg
-                      className="h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                  </span>
-                  <span className="tracking-wide">Other Information</span>
-                </div>
-                <ul className="list-inside space-y-2">
-                  <li className="">
-                    <div className="text-gray-700">NickName </div>
-                    <div className="text-gray-500 text-xs">
-                      {details && details[0].nick_name}
-                    </div>
-                  </li>
-                  <li>
-                    <div className="text-gray-700">Hair Color</div>
-                    <div className="text-gray-500 text-xs">
-                      {details && details[0].hair_color}
-                    </div>
-                  </li>
-
-                  <li>
-                    <div className="text-gray-700">Eye Color</div>
-                    <div className="text-gray-500 text-xs">
-                      {details && details[0].eye_color}
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>{" "}
-          <div className="bg-white p-3 shadow-sm rounded-sm">
-            <div className="grid grid-cols-2">
-              <div>
-                <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                  <span clas="text-green-500">
-                    <svg
-                      className="h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                  </span>
-                  <span className="tracking-wide">Full Descriptoin</span>
-                </div>
-                <div className="list-inside space-y-2">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Numquam quo consequuntur eos placeat animi adipisci
-                  consequatur doloribus ex odio deleniti!
-                </div>
-              </div>
-            </div>
-          </div>{" "}
         </div>
       </div>
     </div>
