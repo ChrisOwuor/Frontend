@@ -6,7 +6,8 @@ import {
   InfoWindowF,
 } from "@react-google-maps/api";
 import AuthContext from "../context/AuthContext";
-
+import ico from "../assets/green.png";
+import green from "../assets/missingp.png"
 const containerStyle = {
   width: "100%",
   height: "80vh",
@@ -16,7 +17,6 @@ const options = {
   mapTypeControl: false,
   streetViewControl: false,
 };
-
 
 function MapView({ setLocation, handleClose }) {
   const [lat, setLat] = useState(null);
@@ -86,13 +86,16 @@ function MapView({ setLocation, handleClose }) {
               {" "}
               {markers.map((marker, index) => {
                 return (
-                  <div key={index} >
+                  <div key={index}>
                     <MarkerF
                       position={marker.location}
                       onClick={() => {
                         setSelectedMarker(marker);
                         setLat(marker.location.lat);
                         setLng(marker.location.lng);
+                      }}
+                      options={{
+                        icon: marker.status === "missing" ? ico : green,
                       }}
                     />
                   </div>
